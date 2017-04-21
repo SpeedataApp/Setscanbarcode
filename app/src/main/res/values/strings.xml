@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">SetScan</string>
+
+
+    <string name="scan_key">Scan Key</string>
+    <string name="describe_scan_key">Open the shortcut scan button</string>
+
+    <string name="scan_results">Scan Results</string>
+    <string name="describe_scan_results">Show scan results</string>
+
+    <string name="scan_sound">Scan Sound</string>
+    <string name="describe_scan_sound">Turn on the scan tone</string>
+
+    <string name="scan_vibration">Scan vibration</string>
+    <string name="describe_scan_vibration">Turn on scan vibrations</string>
+
+    <string name="flash_light">Flash Light</string>
+    <string name="describe_flash_light"> Turn on the flash assist scan</string>
+
+    <string name="continuous_scan">Continuous Scan</string>
+    <string name="describe_continuous_scan"> Turn on continuous scanning</string>
+
+    <string name="save_image">Save Image</string>
+    <string name="describe_save_image"> Save the barcode image to the album</string>
+
+
+    <string name="barcode_type">Barcode Type</string>
+    <string name="custom_prefix">Custom Prefix</string>
+    <string name="custom_suffix">Custom Suffix</string>
+    <string name="dialog_sure">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_title">Please select barcode type</string>
+</resources>

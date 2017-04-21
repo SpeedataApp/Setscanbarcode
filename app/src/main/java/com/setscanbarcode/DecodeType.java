@@ -1,0 +1,86 @@
+package com.setscanbarcode;
+
+/**
+ * Created by suntianwei on 2017/4/18.
+ */
+
+public class DecodeType {
+    public static final int UPCA = 436273169;
+    public static final int UPCA_2CHAR_ADDENDA = 436273156;
+    public static final int UPCA_5CHAR_ADDENDA = 436273157;
+    public static final int UPCE0 = 436277249;
+    public static final int UPCE1 = 436277250;
+    public static final int UPCE_EXPAND = 436277251;
+    public static final int UPCE_2CHAR_ADDENDA = 436277254;
+    public static final int UPCE_5CHAR_ADDENDA = 436277255;
+    public static final int EAN8 = 436281345;
+    public static final int EAN8_2CHAR_ADDENDA = 436281347;
+    public static final int EAN8_5CHAR_ADDENDA = 436281348;
+    public static final int EAN13 = 436285441;
+    public static final int EAN13_2CHAR_ADDENDA = 436285443;
+    public static final int EAN13_5CHAR_ADDENDA = 436285444;
+    public static final int EAN13_ISBN = 436285447;
+    public static final int CODE128 = 436289537;
+    public static final int GS1_128 = 436293633;
+    public static final int C128_ISBT = 436289541;
+    public static final int CODE39 = 436297729;
+    public static final int COUPON_CODE = 436232193;
+    public static final int TRIOPTIC = 436305921;
+    public static final int I25 = 436310017;
+    public static final int S25 = 436314113;
+    public static final int IATA25 = 436318209;
+    public static final int M25 = 436322305;
+    public static final int CODE93 = 436326401;
+    public static final int CODE11 = 436330497;
+    public static final int CODABAR = 436334593;
+    public static final int TELEPEN = 436338689;
+    public static final int MSI = 436342785;
+    public static final int RSS_14 = 436346881;
+    public static final int RSS_LIMITED = 436346882;
+    public static final int RSS_EXPANDED = 436346883;
+    public static final int CODABLOCK_F = 436350977;
+    public static final int PDF417 = 436355073;
+    public static final int MICROPDF = 436359169;
+    public static final int COMPOSITE = 436363265;
+    public static final int COMPOSITE_WITH_UPC = 436363268;
+    public static final int AZTEC = 436367361;
+    public static final int MAXICODE = 436371457;
+    public static final int DATAMATRIX = 436375553;
+    public static final int DATAMATRIX_RECTANGLE = 453152779;
+    public static final int QR = 436379649;
+    public static final int HANXIN = 436383745;
+    public static final int HK25 = 436387841;
+    public static final int KOREA_POST = 437256193;
+    public static final int OCR = 436391937;
+    public static final int POSTAL_GROUP_1 = 1;
+    public static final int POSTAL_GROUP_2 = 2;
+    public static final int POSTAL_GROUP_3 = 3;
+    public static final int POSTAL_GROUP_4 = 4;
+    public static final int POSTAL_GROUP_5 = 5;
+    public static final int POSTAL_GROUP_6 = 6;
+    public static final int POSTAL_GROUP_7 = 7;
+    public static final int POSTAL_GROUP_8 = 8;
+    public static final int POSTAL_GROUP_9 = 9;
+    public static final int POSTAL_GROUP_10 = 10;
+    public static final int POSTAL_GROUP_11 = 11;
+    public static final int POSTAL_GROUP_12 = 12;
+    public static final int POSTAL_GROUP_13 = 13;
+    public static final int POSTAL_GROUP_14 = 14;
+    public static final int POSTAL_GROUP_15 = 15;
+    public static final int POSTAL_GROUP_16 = 16;
+    public static final int POSTAL_GROUP_17 = 17;
+    public static final int POSTAL_GROUP_18 = 18;
+    public static final int POSTAL_GROUP_19 = 19;
+    public static final int POSTAL_GROUP_20 = 20;
+    public static final int POSTAL_GROUP_21 = 21;
+    public static final int POSTAL_GROUP_22 = 22;
+    public static final int POSTAL_GROUP_23 = 23;
+    public static final int POSTAL_GROUP_24 = 24;
+    public static final int POSTAL_GROUP_25 = 25;
+    public static final int POSTAL_GROUP_26 = 26;
+    public static final int POSTAL_GROUP_27 = 27;
+    public static final int POSTAL_GROUP_28 = 28;
+    public static final int POSTAL_GROUP_29 = 29;
+    public static final int POSTAL_GROUP_30 = 30;
+    public static final int[] SYMS = new int[]{436273169, 436273156, 436273157, 436277249, 436277250, 436277251, 436277254, 436277255, 436281345, 436281347, 436281348, 436285441, 436285443, 436285444, 436285447, 436289537, 436293633, 436289541, 436297729, 436232193, 436305921, 436310017, 436314113, 436318209, 436322305, 436326401, 436330497, 436334593, 436338689, 436342785, 436346881, 436346882, 436346883, 436350977, 436355073, 436359169, 436363265, 436363268, 436367361, 436371457, 436375553, 453152779, 436379649, 436383745, 436387841, 437256193, 436391937};
+}
