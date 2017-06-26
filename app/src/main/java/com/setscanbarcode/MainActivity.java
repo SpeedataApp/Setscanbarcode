@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     }
 
     private void initData() {
+
         ContentBean contentBean1 = new ContentBean();
         contentBean1.setTitle(getString(R.string.scan_key));
         contentBean1.setDescribe(getString(R.string.describe_scan_key));
