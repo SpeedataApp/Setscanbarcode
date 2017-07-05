@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         super.onResume();
         initView();
     }
-
+    //eventbus接收数据，原为动态修改显示的描述内容。现在不需要。
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(MsgEvent mEvent) {
         String type = mEvent.getType();
@@ -287,10 +287,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String s = editText.getText().toString();
-                if (position == 8) {
+                if (position == 9) {
 
                     sendBroadcasts("com.setscan.qianzhui", s);
-                } else if (position == 9) {
+                } else if (position == 10) {
                     sendBroadcasts("com.setscan.houzhui", s);
                 }
             }
