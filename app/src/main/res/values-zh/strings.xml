@@ -31,4 +31,7 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_title">请选择条码类型</string>
 
+    <string name="select_camera">选择扫描摄像头</string>
+    <string name="front_camera">使用前置摄像头扫码</string>
+
 </resources>

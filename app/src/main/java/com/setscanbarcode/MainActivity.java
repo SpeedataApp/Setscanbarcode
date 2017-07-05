@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -69,6 +71,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean1.setCbVisible(true);
         contentBean1.setCheck(preferencesUitl.read(isEnable, true));
         mList.add(contentBean1);
+
+        ContentBean contentBean11 = new ContentBean();
+        contentBean11.setTitle(getString(R.string.select_camera));
+        contentBean11.setDescribe(getString(R.string.front_camera));
+        contentBean11.setTvVisible(true);
+        contentBean11.setCbVisible(true);
+        contentBean11.setCheck(preferencesUitl.read(isFront, true));
+        mList.add(contentBean11);
+
         ContentBean contentBean2 = new ContentBean();
         contentBean2.setTitle(getString(R.string.scan_results));
         contentBean2.setDescribe(getString(R.string.describe_scan_results));
@@ -161,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         sendBroadcast(intent);
     }
 
+    private static String isFront = "isfront";
     private static String isEnable = "isenable";
     private static String isShowdecode = "isshowdecode";
     private static String isSound = "issound";
@@ -186,7 +198,20 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isEnable, b);
                 }
                 break;
-            case 1:
+
+            case 1: //使用前置摄像头
+                if (b) {
+                    SystemProperties.set("persist.sys.scancamera", "front");
+                    sendBroadcast("com.setscan.front", true);
+                    preferencesUitl.write(isFront, b);
+                } else {
+                    SystemProperties.set("persist.sys.scancamera", "back");
+                    sendBroadcast("com.setscan.front", false);
+                    preferencesUitl.write(isFront, b);
+                }
+                break;
+
+            case 2:
                 if (b) {
                     sendBroadcast("com.setscan.showdecode", true);
                     preferencesUitl.write(isShowdecode, b);
@@ -195,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isShowdecode, b);
                 }
                 break;
-            case 2:
+            case 3:
                 if (b) {
                     sendBroadcast("com.setscan.sound", true);
                     preferencesUitl.write(isSound, b);
@@ -204,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isSound, b);
                 }
                 break;
-            case 3:
+            case 4:
                 if (b) {
                     sendBroadcast("com.setscan.vibrator", true);
                     preferencesUitl.write(isVibrator, b);
@@ -213,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isVibrator, b);
                 }
                 break;
-            case 4:
+            case 5:
                 if (b) {
                     sendBroadcast("com.setscan.flash", true);
                     preferencesUitl.write(isFlash, b);
@@ -222,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isFlash, b);
                 }
                 break;
-            case 5:
+            case 6:
                 if (b) {
                     sendBroadcast("com.setscan.continuous", true);
                     preferencesUitl.write(isContinuous, b);
@@ -231,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isContinuous, b);
                 }
                 break;
-            case 6:
+            case 7:
                 if (b) {
                     sendBroadcast("com.setscan.issaveimage", true);
                     preferencesUitl.write(isSaveImage, b);
@@ -240,13 +265,13 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUitl.write(isSaveImage, b);
                 }
                 break;
-            case 7:
+            case 8:
                 showMultiChoiceItems();
                 break;
-            case 8:
+            case 9:
                 showInputDialog(getString(R.string.custom_prefix));
                 break;
-            case 9:
+            case 10:
                 showInputDialog(getString(R.string.custom_suffix));
                 break;
         }
@@ -262,10 +287,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String s = editText.getText().toString();
-                if (position == 7) {
+                if (position == 8) {
 
                     sendBroadcasts("com.setscan.qianzhui", s);
-                } else if (position == 8) {
+                } else if (position == 9) {
                     sendBroadcasts("com.setscan.houzhui", s);
                 }
             }
@@ -273,14 +298,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     }
 
-    private ListView lv;
+    private ListView lv; //加上ALL共48个 0-47
     private final String[] items = {"UPCA", "UPCA_2CHAR_ADDENDA", "UPCA_5CHAR_ADDENDA", "UPCE0", "UPCE1",
             "UPCE_EXPAND", "UPCE_2CHAR_ADDENDA", "UPCE_5CHAR_ADDENDA", "EAN8", "EAN8_2CHAR_ADDENDA",
             "EAN8_5CHAR_ADDENDA", "EAN13", "EAN13_2CHAR_ADDENDA", "EAN13_5CHAR_ADDENDA", "EAN13_ISBN",
             "CODE128", "GS1_128", "C128_ISBT", "CODE39", "COUPON_CODE", "TRIOPTIC", "I25", "S25", "IATA25",
             "M25", "CODE93", "CODE11", "CODABAR", "TELEPEN", "MSI", "RSS_14", "RSS_LIMITED", "RSS_EXPANDED",
             "CODABLOCK_F", "PDF417", "MICROPDF", "COMPOSITE", "COMPOSITE_WITH_UPC", "AZTEC", "MAXICODE",
-            "DATAMATRIX", "DATAMATRIX_RECTANGLE", "QR", "HANXIN", "HK25", "KOREA_POST", "OCR"};
+            "DATAMATRIX", "DATAMATRIX_RECTANGLE", "QR", "HANXIN", "HK25", "KOREA_POST", "OCR", "ALL"};
 
 
     private void showMultiChoiceItems() {
@@ -289,17 +314,50 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             boolArr[i] = preferencesUitl.read("decodetype" + i, true);
             Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
         }
-        AlertDialog builder = new AlertDialog.Builder(this)
+        final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.dialog_title))
                 .setMultiChoiceItems(items, boolArr, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 //                        boolArr[which] = isChecked;
-                        if (isChecked) {
+                        if (which != 47 && isChecked == true) {
                             preferencesUitl.write("decodetype" + which, isChecked);
-                        } else {
+                        } else if (which != 47 && isChecked == false){
+                            SparseBooleanArray sb;
+                            sb = lv.getCheckedItemPositions();
+                                if (sb.get(47) == false) {
+                                    lv.setItemChecked(47, false);
+                                }
+
                             preferencesUitl.write("decodetype" + which, isChecked);
                         }
+
+                        if (which == 47 && isChecked == true){ //如果全选，则为全选
+                            //把显示的勾选全置为ture
+                            SparseBooleanArray sb;
+                            sb = lv.getCheckedItemPositions();
+                            for (int j = 0; j <= 47; j++) {
+                                if (sb.get(j) == false) {
+                                    lv.setItemChecked(j, true);
+                                }
+                            }
+                            for (int i = 0; i < 48; i++){
+                                preferencesUitl.write("decodetype" + i, true);
+                            }
+                        }else if (which == 47 && isChecked == false){
+                            //把显示的勾选全置为false
+                            for (int i = 0; i < boolArr.length; i++) {
+                                boolArr[i] = false;
+                            }
+                            lv.clearChoices();
+                            lv.setSelection(47);
+
+                            for (int i = 0; i < 48; i++){
+                                preferencesUitl.write("decodetype" + i, false);
+                            }
+                        }
+
+
                     }
                 }).setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
                     @Override
