@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean11.setDescribe(getString(R.string.front_camera));
         contentBean11.setTvVisible(true);
         contentBean11.setCbVisible(true);
-        contentBean11.setCheck(preferencesUitl.read(isFront, true));
+        contentBean11.setCheck(preferencesUitl.read(isFront, false));
         mList.add(contentBean11);
 
         ContentBean contentBean2 = new ContentBean();
@@ -240,9 +240,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
             case 5:
                 if (b) {
-                    if ("front".equals(SystemProperties.get("persist.sys.scancamera"))){
-                    return; //检测到前置，不启动闪光灯
-                    }
+//                    if ("front".equals(SystemProperties.get("persist.sys.scancamera"))){
+//                    return; //检测到前置，不启动闪光灯
+//                    }
                     sendBroadcast("com.setscan.flash", true);
                     preferencesUitl.write(isFlash, b);
                 } else {

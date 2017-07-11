@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Setscanbarcode.iml" filepath="$PROJECT_DIR$/Setscanbarcode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SetScanBarcode.iml" filepath="$PROJECT_DIR$/SetScanBarcode.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
