@@ -323,31 +323,31 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 //                        boolArr[which] = isChecked;
-                        if (which != 47 && isChecked == true) {
+                        if (which != 47 && isChecked) {
                             preferencesUitl.write("decodetype" + which, isChecked);
-                        } else if (which != 47 && isChecked == false){
+                        } else if (which != 47 && !isChecked){
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
-                                if (sb.get(47) == false) {
+                                if (!sb.get(47)) {
                                     lv.setItemChecked(47, false);
                                 }
 
                             preferencesUitl.write("decodetype" + which, isChecked);
                         }
 
-                        if (which == 47 && isChecked == true){ //如果全选，则为全选
+                        if (which == 47 && isChecked){ //如果全选，则为全选
                             //把显示的勾选全置为ture
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
                             for (int j = 0; j <= 47; j++) {
-                                if (sb.get(j) == false) {
+                                if (!sb.get(j)) {
                                     lv.setItemChecked(j, true);
                                 }
                             }
                             for (int i = 0; i < 48; i++){
                                 preferencesUitl.write("decodetype" + i, true);
                             }
-                        }else if (which == 47 && isChecked == false){
+                        }else if (which == 47 && !isChecked){
                             //把显示的勾选全置为false
                             for (int i = 0; i < boolArr.length; i++) {
                                 boolArr[i] = false;
