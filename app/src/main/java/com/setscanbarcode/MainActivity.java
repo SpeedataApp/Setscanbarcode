@@ -1,8 +1,12 @@
 package com.setscanbarcode;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +29,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.reginer.baseadapter.CommonRvAdapter;
+import win.reginer.adapter.CommonRvAdapter;
+
 
 public class MainActivity extends AppCompatActivity implements CommonRvAdapter.OnItemClickListener {
 
@@ -35,6 +40,21 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     SharedPreferencesUitl preferencesUitl;
     boolean[] boolArr;
     String TAG = "SETSCAN";
+    private String INIT_SERVICE = "com.scanservice.init";
+
+    //设置项目
+    private ContentBean contentBean1;
+    private ContentBean contentBean2;
+    private ContentBean contentBean3;
+    private ContentBean contentBean4;
+    private ContentBean contentBean5;
+    private ContentBean contentBean6;
+    private ContentBean contentBean7;
+    private ContentBean contentBean8;
+    private ContentBean contentBean9;
+    private ContentBean contentBean10;
+    private ContentBean contentBean11;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         preferencesUitl = SharedPreferencesUitl.getInstance(this, "setscan");
         EventBus.getDefault().register(this);
         initData();
+        intentFilter();
         boolArr = new boolean[items.length];
     }
 
@@ -64,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     private void initData() {
 
-        ContentBean contentBean1 = new ContentBean();
+        contentBean1 = new ContentBean();
         contentBean1.setTitle(getString(R.string.scan_key));
         contentBean1.setDescribe(getString(R.string.describe_scan_key));
         contentBean1.setTvVisible(true);
@@ -72,78 +93,127 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean1.setCheck(preferencesUitl.read(isEnable, true));
         mList.add(contentBean1);
 
-        ContentBean contentBean11 = new ContentBean();
-        contentBean11.setTitle(getString(R.string.select_camera));
-        contentBean11.setDescribe(getString(R.string.front_camera));
-        contentBean11.setTvVisible(true);
-        contentBean11.setCbVisible(true);
-        contentBean11.setCheck(preferencesUitl.read(isFront, false));
-        mList.add(contentBean11);
-
-        ContentBean contentBean2 = new ContentBean();
-        contentBean2.setTitle(getString(R.string.scan_results));
-        contentBean2.setDescribe(getString(R.string.describe_scan_results));
+        contentBean2 = new ContentBean();
+        contentBean2.setTitle(getString(R.string.select_camera));
+        contentBean2.setDescribe(getString(R.string.front_camera));
         contentBean2.setTvVisible(true);
         contentBean2.setCbVisible(true);
-        boolean b = preferencesUitl.read(isShowdecode, true);
-        contentBean2.setCheck(b);
+        contentBean2.setCheck(preferencesUitl.read(isFront, false));
         mList.add(contentBean2);
-        ContentBean contentBean3 = new ContentBean();
-        contentBean3.setTitle(getString(R.string.scan_sound));
-        contentBean3.setDescribe(getString(R.string.describe_scan_sound));
+
+        contentBean3 = new ContentBean();
+        contentBean3.setTitle(getString(R.string.scan_results));
+        contentBean3.setDescribe(getString(R.string.describe_scan_results));
         contentBean3.setTvVisible(true);
         contentBean3.setCbVisible(true);
-        contentBean3.setCheck(preferencesUitl.read(isSound, true));
+        boolean b = preferencesUitl.read(isShowdecode, true);
+        contentBean3.setCheck(b);
         mList.add(contentBean3);
-        ContentBean contentBean4 = new ContentBean();
-        contentBean4.setTitle(getString(R.string.scan_vibration));
-        contentBean4.setDescribe(getString(R.string.describe_scan_vibration));
+
+        contentBean4 = new ContentBean();
+        contentBean4.setTitle(getString(R.string.scan_sound));
+        contentBean4.setDescribe(getString(R.string.describe_scan_sound));
         contentBean4.setTvVisible(true);
         contentBean4.setCbVisible(true);
-        contentBean4.setCheck(preferencesUitl.read(isVibrator, true));
+        contentBean4.setCheck(preferencesUitl.read(isSound, true));
         mList.add(contentBean4);
-        ContentBean contentBean5 = new ContentBean();
-        contentBean5.setTitle(getString(R.string.flash_light));
-        contentBean5.setDescribe(getString(R.string.describe_flash_light));
+
+        contentBean5 = new ContentBean();
+        contentBean5.setTitle(getString(R.string.scan_vibration));
+        contentBean5.setDescribe(getString(R.string.describe_scan_vibration));
         contentBean5.setTvVisible(true);
         contentBean5.setCbVisible(true);
-        contentBean5.setCheck(preferencesUitl.read(isFlash, false));
+        contentBean5.setCheck(preferencesUitl.read(isVibrator, true));
         mList.add(contentBean5);
-        ContentBean contentBean6 = new ContentBean();
-        contentBean6.setTitle(getString(R.string.continuous_scan));
-        contentBean6.setDescribe(getString(R.string.describe_continuous_scan));
+
+        contentBean6 = new ContentBean();
+        contentBean6.setTitle(getString(R.string.flash_light));
+        contentBean6.setDescribe(getString(R.string.describe_flash_light));
         contentBean6.setTvVisible(true);
         contentBean6.setCbVisible(true);
-        contentBean6.setCheck(preferencesUitl.read(isContinuous, false));
+        contentBean6.setCheck(preferencesUitl.read(isFlash, false));
         mList.add(contentBean6);
-        ContentBean contentBean10 = new ContentBean();
-        contentBean10.setTitle(getString(R.string.save_image));
-        contentBean10.setDescribe(getString(R.string.describe_save_image));
-        contentBean10.setCheck(preferencesUitl.read(isSaveImage, true));
-        contentBean10.setTvVisible(true);
-        contentBean10.setCbVisible(true);
-        mList.add(contentBean10);
-        ContentBean contentBean7 = new ContentBean();
-        contentBean7.setTitle(getString(R.string.barcode_type));
-//        contentBean5.setDescribe("使能连续扫描功能");
-        contentBean7.setTvVisible(false);
-        contentBean7.setCbVisible(false);
-        contentBean7.setCheck(false);
+
+        contentBean7 = new ContentBean();
+        contentBean7.setTitle(getString(R.string.continuous_scan));
+        contentBean7.setDescribe(getString(R.string.describe_continuous_scan));
+        contentBean7.setTvVisible(true);
+        contentBean7.setCbVisible(true);
+        contentBean7.setCheck(preferencesUitl.read(isContinuous, false));
         mList.add(contentBean7);
-        ContentBean contentBean8 = new ContentBean();
-        contentBean8.setTitle(getString(R.string.custom_prefix));
-        contentBean8.setTvVisible(false);
-        contentBean8.setCbVisible(false);
-        contentBean8.setCheck(false);
+
+        contentBean8 = new ContentBean();
+        contentBean8.setTitle(getString(R.string.save_image));
+        contentBean8.setDescribe(getString(R.string.describe_save_image));
+        contentBean8.setCheck(preferencesUitl.read(isSaveImage, true));
+        contentBean8.setTvVisible(true);
+        contentBean8.setCbVisible(true);
         mList.add(contentBean8);
-        ContentBean contentBean9 = new ContentBean();
-        contentBean9.setTitle(getString(R.string.custom_suffix));
-        contentBean9.setDescribe("");
+
+        contentBean9 = new ContentBean();
+        contentBean9.setTitle(getString(R.string.barcode_type));
+//        contentBean5.setDescribe("使能连续扫描功能");
         contentBean9.setTvVisible(false);
         contentBean9.setCbVisible(false);
         contentBean9.setCheck(false);
         mList.add(contentBean9);
 
+        contentBean10 = new ContentBean();
+        contentBean10.setTitle(getString(R.string.custom_prefix));
+        contentBean10.setTvVisible(false);
+        contentBean10.setCbVisible(false);
+        contentBean10.setCheck(false);
+        mList.add(contentBean10);
+
+        contentBean11 = new ContentBean();
+        contentBean11.setTitle(getString(R.string.custom_suffix));
+        contentBean11.setDescribe("");
+        contentBean11.setTvVisible(false);
+        contentBean11.setCbVisible(false);
+        contentBean11.setCheck(false);
+        mList.add(contentBean11);
+
+        contentBean1.setEnable(true);
+        contentBean2.setEnable(true);
+        contentBean3.setEnable(true);
+        contentBean4.setEnable(true);
+        contentBean5.setEnable(true);
+        contentBean6.setEnable(true);
+        contentBean7.setEnable(true);
+        contentBean8.setEnable(true);
+        contentBean9.setEnable(true);
+        contentBean10.setEnable(true);
+        contentBean11.setEnable(true);
+
+        initEnable();
+    }
+    //修改设置选项可点击与不可点击
+    private void initEnable() {
+        if (preferencesUitl.read(isEnable, true)) {
+
+            contentBean2.setEnable(true);
+            contentBean3.setEnable(true);
+            contentBean4.setEnable(true);
+            contentBean5.setEnable(true);
+            contentBean6.setEnable(true);
+            contentBean7.setEnable(true);
+            contentBean8.setEnable(true);
+            contentBean9.setEnable(true);
+            contentBean10.setEnable(true);
+            contentBean11.setEnable(true);
+        } else {
+
+            contentBean2.setEnable(false);
+            contentBean3.setEnable(false);
+            contentBean4.setEnable(false);
+            contentBean5.setEnable(false);
+            contentBean6.setEnable(false);
+            contentBean7.setEnable(false);
+            contentBean8.setEnable(false);
+            contentBean9.setEnable(false);
+            contentBean10.setEnable(false);
+            contentBean11.setEnable(false);
+        }
     }
 
     private void initView() {
@@ -196,7 +266,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 } else {
                     sendBroadcast("com.setscan.enablescan", false);
                     preferencesUitl.write(isEnable, b);
+                    initEnable();
                 }
+                mAdapter.notifyDataSetChanged();
                 break;
 
             case 1: //使用前置摄像头
@@ -325,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 //                        boolArr[which] = isChecked;
                         if (which != 47 && isChecked) {
                             preferencesUitl.write("decodetype" + which, isChecked);
-                        } else if (which != 47 && !isChecked){
+                        } else if (which != 47 && !isChecked) {
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
                                 if (!sb.get(47)) {
@@ -344,10 +416,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                     lv.setItemChecked(j, true);
                                 }
                             }
-                            for (int i = 0; i < 48; i++){
+                            for (int i = 0; i < 48; i++) {
                                 preferencesUitl.write("decodetype" + i, true);
                             }
-                        }else if (which == 47 && !isChecked){
+                        } else if (which == 47 && !isChecked) {
                             //把显示的勾选全置为false
                             for (int i = 0; i < boolArr.length; i++) {
                                 boolArr[i] = false;
@@ -355,7 +427,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                             lv.clearChoices();
                             lv.setSelection(47);
 
-                            for (int i = 0; i < 48; i++){
+                            for (int i = 0; i < 48; i++) {
                                 preferencesUitl.write("decodetype" + i, false);
                             }
                         }
@@ -430,4 +502,25 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+    //接收扫描服务的广播,使选项能够改变使用状态
+    private void intentFilter() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(INIT_SERVICE);
+        registerReceiver(receiver, filter);
+    }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String state = intent.getAction();
+            if (state.equals(INIT_SERVICE)) {
+                initEnable();
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
+
+
 }

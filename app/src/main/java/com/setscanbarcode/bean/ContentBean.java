@@ -10,6 +10,7 @@ public class ContentBean {
     private boolean isCheck;
     private boolean tvVisible;
     private boolean cbVisible;
+    private boolean enable;
 
     public boolean isTvVisible() {
         return tvVisible;
@@ -51,5 +52,13 @@ public class ContentBean {
 
     public void setCheck(boolean check) {
         isCheck = check;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }

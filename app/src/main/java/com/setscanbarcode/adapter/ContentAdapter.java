@@ -7,8 +7,9 @@ import com.setscanbarcode.bean.ContentBean;
 
 import java.util.List;
 
-import xyz.reginer.baseadapter.BaseAdapterHelper;
-import xyz.reginer.baseadapter.CommonRvAdapter;
+import win.reginer.adapter.BaseAdapterHelper;
+import win.reginer.adapter.CommonRvAdapter;
+
 
 public class ContentAdapter extends CommonRvAdapter<ContentBean> {
 
@@ -24,5 +25,9 @@ public class ContentAdapter extends CommonRvAdapter<ContentBean> {
         helper.setChecked(R.id.cb,item.isCheck());
         helper.setVisible(R.id.cb,item.isCbVisible());
         helper.setVisible(R.id.tv_describe,item.isTvVisible());
+        helper.setEnabled(R.id.ll_item, item.isEnable());
+
     }
+
+
 }
