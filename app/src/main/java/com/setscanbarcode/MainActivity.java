@@ -276,10 +276,12 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     SystemProperties.set("persist.sys.scancamera", "front");
                     sendBroadcast("com.setscan.front", true);
                     preferencesUitl.write(isFront, b);
+                    contentBean6.setEnable(false);
                 } else {
                     SystemProperties.set("persist.sys.scancamera", "back");
                     sendBroadcast("com.setscan.front", false);
                     preferencesUitl.write(isFront, b);
+                    contentBean6.setEnable(true);
                 }
                 break;
 
