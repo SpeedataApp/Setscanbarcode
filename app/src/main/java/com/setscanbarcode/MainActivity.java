@@ -399,13 +399,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 //                        boolArr[which] = isChecked;
                         if (which != 47 && isChecked) {
                             preferencesUitl.write("decodetype" + which, isChecked);
+                            boolArr[which] = isChecked;
                         } else if (which != 47 && !isChecked) {
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
                                 if (!sb.get(47)) {
                                     lv.setItemChecked(47, false);
                                 }
-
+                            boolArr[which] = isChecked;
                             preferencesUitl.write("decodetype" + which, isChecked);
                         }
 
@@ -419,6 +420,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                 }
                             }
                             for (int i = 0; i < 48; i++) {
+                                boolArr[i] = true;
                                 preferencesUitl.write("decodetype" + i, true);
                             }
                         } else if (which == 47 && !isChecked) {
@@ -477,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         intent.setAction("com.setscan.decodetype");
                         Bundle bundle = new Bundle();
                         bundle.putStringArray("enableDecode", decodeTypes);
-                        bundle.putBooleanArray("enableflag",boolArr);
+                        bundle.putBooleanArray("enableflag", boolArr);
                         intent.putExtras(bundle);
                         sendBroadcast(intent);
 //                        // 用户至少选择了一个列表项
