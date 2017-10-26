@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
         contentBean9 = new ContentBean();
         contentBean9.setTitle(getString(R.string.barcode_type));
-//        contentBean5.setDescribe("使能连续扫描功能");
         contentBean9.setTvVisible(false);
         contentBean9.setCbVisible(false);
         contentBean9.setCheck(false);
@@ -263,7 +262,23 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 if (b) {
                     sendBroadcast("com.setscan.enablescan", true);
                     preferencesUitl.write(isEnable, b);
+                    // TODO: 2017/10/26 修改的扫描服务使能
+//                    Intent BarcodeIntent = new Intent();
+//                    ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+//                    BarcodeIntent.setComponent(cn);
+//                    getActivity().startService(BarcodeIntent);
+//                    preferencesUtil.write(isEnable, b);
+//                    SystemProperties.set("persist.sys.keyreport","true");
+
                 } else {
+                    // TODO: 2017/10/26 修改的扫描服务使能
+//                    Intent BarcodeIntent = new Intent();
+//                    ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+//                    BarcodeIntent.setComponent(cn);
+//                    getActivity().stopService(BarcodeIntent);
+//                    preferencesUtil.write(isEnable, b);
+//                    SystemProperties.set("persist.sys.keyreport","false");
+
                     sendBroadcast("com.setscan.enablescan", false);
                     preferencesUitl.write(isEnable, b);
                     initEnable();
@@ -276,6 +291,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     SystemProperties.set("persist.sys.scancamera", "front");
                     sendBroadcast("com.setscan.front", true);
                     preferencesUitl.write(isFront, b);
+
+                    if (contentBean6.isCheck()) {
+                        contentBean6.setTvVisible(true);
+                        contentBean6.setCbVisible(true);
+                        contentBean6.setCheck(false);
+                        sendBroadcast("com.setscan.flash", false);
+                        preferencesUitl.write(isFlash, b);
+                    }
+
                     contentBean6.setEnable(false);
                 } else {
                     SystemProperties.set("persist.sys.scancamera", "back");
@@ -313,10 +337,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 }
                 break;
             case 5:
+                if (preferencesUitl.read(isFront, false) || !preferencesUitl.read(isEnable, true)) {
+                    return;
+                }
                 if (b) {
-//                    if ("front".equals(SystemProperties.get("persist.sys.scancamera"))){
-//                    return; //检测到前置，不启动闪光灯
-//                    }
                     sendBroadcast("com.setscan.flash", true);
                     preferencesUitl.write(isFlash, b);
                 } else {
@@ -464,16 +488,16 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         String[] decodeTypes = new String[boolArr.length];
                         for (int i = 0; i < boolArr.length; i++) {
 //                            if (boolArr[i]) {
-                                decodeTypes[j] = items[i].toString();
+                                decodeTypes[j] = items[i];
                                 j++;
 //                            } else {
 //                                decodeTypes[j] = "";
 //                                j++;
 //                            }
-                            if (lv.getCheckedItemPositions().get(i)) {
-                                Log.i(TAG, i + "onClick: " + decodeTypes[i]);
-                                s += i + ":" + lv.getAdapter().getItem(i) + " ";
-                            }
+//                            if (lv.getCheckedItemPositions().get(i)) {
+//                                Log.i(TAG, i + "onClick: " + decodeTypes[i]);
+//                                s += i + ":" + lv.getAdapter().getItem(i) + " ";
+//                            }
                         }
                         Intent intent = new Intent();
                         intent.setAction("com.setscan.decodetype");
