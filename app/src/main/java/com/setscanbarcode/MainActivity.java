@@ -1,12 +1,12 @@
 package com.setscanbarcode;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.support.v7.app.AppCompatActivity;
@@ -263,21 +263,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     sendBroadcast("com.setscan.enablescan", true);
                     preferencesUitl.write(isEnable, b);
                     // TODO: 2017/10/26 修改的扫描服务使能
-//                    Intent BarcodeIntent = new Intent();
-//                    ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
-//                    BarcodeIntent.setComponent(cn);
-//                    getActivity().startService(BarcodeIntent);
-//                    preferencesUtil.write(isEnable, b);
-//                    SystemProperties.set("persist.sys.keyreport","true");
+
+                    SystemProperties.set("persist.sys.keyreport", "true");
+                    initEnable();
 
                 } else {
                     // TODO: 2017/10/26 修改的扫描服务使能
-//                    Intent BarcodeIntent = new Intent();
-//                    ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
-//                    BarcodeIntent.setComponent(cn);
-//                    getActivity().stopService(BarcodeIntent);
-//                    preferencesUtil.write(isEnable, b);
-//                    SystemProperties.set("persist.sys.keyreport","false");
+
+                    SystemProperties.set("persist.sys.keyreport", "false");
 
                     sendBroadcast("com.setscan.enablescan", false);
                     preferencesUitl.write(isEnable, b);
@@ -287,19 +280,24 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
 
             case 1: //使用前置摄像头
+                if(isWorked(this)){
+                    return;
+                }
+
+
                 if (b) {
-                    SystemProperties.set("persist.sys.scancamera", "front");
-                    sendBroadcast("com.setscan.front", true);
-                    preferencesUitl.write(isFront, b);
 
                     if (contentBean6.isCheck()) {
+                        sendBroadcast("com.setscan.flash", false);
                         contentBean6.setTvVisible(true);
                         contentBean6.setCbVisible(true);
                         contentBean6.setCheck(false);
-                        sendBroadcast("com.setscan.flash", false);
-                        preferencesUitl.write(isFlash, b);
-                    }
+                        preferencesUitl.write(isFlash, false);
 
+                    }
+                    SystemProperties.set("persist.sys.scancamera", "front");
+                    sendBroadcast("com.setscan.front", true);
+                    preferencesUitl.write(isFront, b);
                     contentBean6.setEnable(false);
                 } else {
                     SystemProperties.set("persist.sys.scancamera", "back");
@@ -375,6 +373,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             case 10:
                 showInputDialog(getString(R.string.custom_suffix));
                 break;
+
+                default:
+                    break;
         }
 
         mAdapter.notifyDataSetChanged();
@@ -548,6 +549,25 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             }
         }
     };
+
+    /**
+     * 判断某个服务是否正在运行的方法
+     * <p>
+     * <p>
+     * 是包名+服务的类名（例如：net.loonggg.testbackstage.TestService）
+     *
+     * @return true代表正在运行，false代表服务没有正在运行
+     */
+    public static boolean isWorked(Context context) {
+        ActivityManager myManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(30);
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().toString().equals("com.scanbarcodeservice.FxService")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 
