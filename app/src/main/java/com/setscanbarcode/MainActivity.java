@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         mList.get(position).setCheck(!mList.get(position).isCheck());
         boolean b = mList.get(position).isCheck();
         this.position = position;
+        Log.d(TAG, "点击了:" + position );
         switch (position) {
             case 0:
                 if (b) {
@@ -281,19 +282,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
             case 1: //使用前置摄像头
                 if(isWorked(this)){
-                    return;
+                    break;
                 }
 
-
                 if (b) {
-
                     if (contentBean6.isCheck()) {
                         sendBroadcast("com.setscan.flash", false);
-                        contentBean6.setTvVisible(true);
-                        contentBean6.setCbVisible(true);
                         contentBean6.setCheck(false);
                         preferencesUitl.write(isFlash, false);
-
                     }
                     SystemProperties.set("persist.sys.scancamera", "front");
                     sendBroadcast("com.setscan.front", true);
@@ -336,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
             case 5:
                 if (preferencesUitl.read(isFront, false) || !preferencesUitl.read(isEnable, true)) {
-                    return;
+                    break;
                 }
                 if (b) {
                     sendBroadcast("com.setscan.flash", true);
