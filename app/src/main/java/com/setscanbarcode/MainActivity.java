@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import win.reginer.adapter.CommonRvAdapter;
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     String TAG = "SETSCAN";
     private String INIT_SERVICE = "com.scanservice.init";
 
-    //设置项目
-    private ContentBean contentBean1;
     private ContentBean contentBean2;
     private ContentBean contentBean3;
     private ContentBean contentBean4;
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     public void onEventMainThread(MsgEvent mEvent) {
         String type = mEvent.getType();
         String msg = (String) mEvent.getMsg();
-        if (type.equals("showContent")) {
+        if ("showContent".equals(type)) {
             mList.get(4).setDescribe(msg);
             mAdapter.notifyDataSetChanged();
         }
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     private void initData() {
 
-        contentBean1 = new ContentBean();
+        ContentBean contentBean1 = new ContentBean();
         contentBean1.setTitle(getString(R.string.scan_key));
         contentBean1.setDescribe(getString(R.string.describe_scan_key));
         contentBean1.setTvVisible(true);
@@ -263,13 +262,11 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 if (b) {
                     sendBroadcast("com.setscan.enablescan", true);
                     preferencesUitl.write(isEnable, b);
-                    // TODO: 2017/10/26 修改的扫描服务使能
 
                     SystemProperties.set("persist.sys.keyreport", "true");
                     initEnable();
 
                 } else {
-                    // TODO: 2017/10/26 修改的扫描服务使能
 
                     SystemProperties.set("persist.sys.keyreport", "false");
 
@@ -407,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
 
     private void showMultiChoiceItems() {
-        Log.i(TAG, "showMultiChoiceItems: " + boolArr);
+        Log.i(TAG, "showMultiChoiceItems: " + Arrays.toString(boolArr));
         for (int i = 0; i < boolArr.length; i++) {
             boolArr[i] = preferencesUitl.read("decodetype" + i, true);
             Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
@@ -539,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         @Override
         public void onReceive(Context context, Intent intent) {
             String state = intent.getAction();
+            assert state != null;
             if (state.equals(INIT_SERVICE)) {
                 initEnable();
                 mAdapter.notifyDataSetChanged();
@@ -556,9 +554,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
      */
     public static boolean isWorked(Context context) {
         ActivityManager myManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        assert myManager != null;
         ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager.getRunningServices(30);
         for (int i = 0; i < runningService.size(); i++) {
-            if (runningService.get(i).service.getClassName().toString().equals("com.scanbarcodeservice.FxService")) {
+            if ("com.scanbarcodeservice.FxService".equals(runningService.get(i).service.getClassName())) {
                 return true;
             }
         }
