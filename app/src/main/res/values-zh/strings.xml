@@ -3,26 +3,26 @@
 
     <string name="app_name">扫描设置</string>
 
-    <string name="scan_key">扫描按键</string>
+    <string name="scan_key">启动快捷扫描</string>
     <string name="describe_scan_key">开启快捷扫描按键</string>
 
-    <string name="scan_results">扫描结果</string>
-    <string name="describe_scan_results">显示扫描结果</string>
+    <string name="scan_results">焦点显示</string>
+    <string name="describe_scan_results">当前焦点显示扫描结果</string>
 
-    <string name="scan_sound">扫描音</string>
-    <string name="describe_scan_sound">开启扫描提示音</string>
+    <string name="scan_sound">提示音</string>
+    <string name="describe_scan_sound">播放扫描提示音</string>
 
-    <string name="scan_vibration">扫描震动</string>
-    <string name="describe_scan_vibration">开启扫描震动</string>
+    <string name="scan_vibration">震动</string>
+    <string name="describe_scan_vibration">震动提示</string>
 
     <string name="flash_light">闪光灯</string>
     <string name="describe_flash_light">开启闪光灯辅助扫描</string>
 
     <string name="continuous_scan">连续扫描</string>
-    <string name="describe_continuous_scan"> 开启连续扫描功能</string>
+    <string name="describe_continuous_scan"> 连续扫描</string>
 
     <string name="save_image">保存图片</string>
-    <string name="describe_save_image"> 将条码图片保存到相册</string>
+    <string name="describe_save_image"> 保存当前条码图片到相册</string>
 
     <string name="barcode_type">条码类型</string>
     <string name="custom_prefix">自定义前缀</string>
@@ -33,5 +33,16 @@
 
     <string name="select_camera">选择扫描摄像头</string>
     <string name="front_camera">使用前置摄像头扫码</string>
+    <string name="scanning_success">扫描成功</string>
+    <string name="scan_settings">扫描设置</string>
+    <string name="aiming_lamp">瞄准灯</string>
+    <string name="aiming_lamp_description">瞄准灯，只适用于扫描头</string>
+    <string name="fill_light">补光灯</string>
+    <string name="white_light">白色灯光</string>
+    <string name="scanning_head_decode">扫描头解码</string>
+    <string name="rear_camera_decode">后置摄像头解码</string>
+    <string name="close_quick_scan">关闭快捷扫描</string>
+    <string name="select_the_scan_head_or_close_the_quick_scan">选择扫描头或关闭快捷扫描</string>
+    <string name="click_to_select_scan_head_or_turn_off_scan">点击选择扫描头或关闭扫描</string>
 
 </resources>

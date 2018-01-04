@@ -27,6 +27,8 @@ public class ContentAdapter extends CommonRvAdapter<ContentBean> {
         helper.setVisible(R.id.tv_describe,item.isTvVisible());
         helper.setEnabled(R.id.ll_item, item.isEnable());
 
+
+
     }
 
 

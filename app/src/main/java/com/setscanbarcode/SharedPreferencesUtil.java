@@ -1,27 +1,29 @@
 package com.setscanbarcode;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 /**
  * Created by suntianwei on 2017/4/14.
  */
 
-public class SharedPreferencesUitl {
+public class SharedPreferencesUtil {
     private android.content.SharedPreferences sharedPreferences;
     private android.content.SharedPreferences.Editor editor;
-    private static SharedPreferencesUitl preferencesUitl = null;
+    private static SharedPreferencesUtil preferencesUtil = null;
 
 
-    public SharedPreferencesUitl(Context context, String key) {
+    @SuppressLint("WrongConstant")
+    public SharedPreferencesUtil(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(key, Context.MODE_APPEND);
         editor = sharedPreferences.edit();
     }
 
-    public static SharedPreferencesUitl getInstance(Context context, String filename) {
-        if (preferencesUitl == null) {
-            preferencesUitl = new SharedPreferencesUitl(context, filename);
+    public static SharedPreferencesUtil getInstance(Context context, String filename) {
+        if (preferencesUtil == null) {
+            preferencesUtil = new SharedPreferencesUtil(context, filename);
         }
-        return preferencesUitl;
+        return preferencesUtil;
     }
 
     public void write(String key, boolean value) {
@@ -35,6 +37,22 @@ public class SharedPreferencesUitl {
         }
         editor.commit();
         editor.apply();
+    }
+
+
+    public void write(String key, String value) {
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    public String read(String key, String defValue) {
+        String string = defValue;
+        try {
+            string = sharedPreferences.getString(key, defValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return string;
     }
 
     public boolean read(String key, boolean defValue) {

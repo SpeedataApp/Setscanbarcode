@@ -2,26 +2,26 @@
     <string name="app_name">SetScan</string>
 
 
-    <string name="scan_key">Scan Key</string>
+    <string name="scan_key">Start quick scan</string>
     <string name="describe_scan_key">Open the shortcut scan button</string>
 
-    <string name="scan_results">Scan Results</string>
-    <string name="describe_scan_results">Show scan results</string>
+    <string name="scan_results">Focus Display</string>
+    <string name="describe_scan_results">The current focus shows the scan result</string>
 
-    <string name="scan_sound">Scan Sound</string>
-    <string name="describe_scan_sound">Turn on the scan tone</string>
+    <string name="scan_sound">Prompt Tone</string>
+    <string name="describe_scan_sound">Play the scan tone</string>
 
-    <string name="scan_vibration">Scan vibration</string>
-    <string name="describe_scan_vibration">Turn on scan vibrations</string>
+    <string name="scan_vibration">Vibration</string>
+    <string name="describe_scan_vibration">Vibration hints</string>
 
     <string name="flash_light">Flash Light</string>
     <string name="describe_flash_light"> Turn on the flash assist scan</string>
 
     <string name="continuous_scan">Continuous Scan</string>
-    <string name="describe_continuous_scan"> Turn on continuous scanning</string>
+    <string name="describe_continuous_scan"> Continuous Scan</string>
 
     <string name="save_image">Save Image</string>
-    <string name="describe_save_image"> Save the barcode image to the album</string>
+    <string name="describe_save_image"> Save the current barcode picture to the album</string>
 
 
     <string name="barcode_type">Barcode Type</string>
@@ -33,5 +33,16 @@
 
     <string name="select_camera">Select scan camera</string>
     <string name="front_camera">Scan code using front camera</string>
+    <string name="scanning_success">Scanning Success</string>
+    <string name="scan_settings">Scan Settings</string>
+    <string name="aiming_lamp">Aiming Lamp</string>
+    <string name="aiming_lamp_description">Aiming lights, only for scan head</string>
+    <string name="fill_light">Fill Light</string>
+    <string name="white_light">White light</string>
+    <string name="scanning_head_decode">Scanning head decode</string>
+    <string name="rear_camera_decode">Rear camera decode</string>
+    <string name="close_quick_scan">Close quick scan</string>
+    <string name="select_the_scan_head_or_close_the_quick_scan">Select the scan head or close the quick scan</string>
+    <string name="click_to_select_scan_head_or_turn_off_scan">Click to select scan head or turn off scan</string>
 
 </resources>
