@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.Selection;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean8 = new ContentBean();
         contentBean8.setTitle(getString(R.string.fill_light));
         contentBean8.setDescribe(getString(R.string.white_light));
-        contentBean8.setCheck(preferencesUtil.read(buguangdeng, true));
+        contentBean8.setCheck(preferencesUtil.read(isFlash, true));
         contentBean8.setTvVisible(true);
         contentBean8.setCbVisible(true);
         mList.add(contentBean8);
@@ -447,11 +449,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         }else if(position == 12){
             editText.setText(preferencesUtil.read(houzhui, ""));
         }
+        //将光标移动到最后显示最下面的信息.
+        Editable text = editText.getText();
+        Selection.setSelection(text, text.length());
 
         inputDialog.setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String s = editText.getText().toString();
+
                 if (position == 11) {
                     preferencesUtil.write(qianzhui, s);
                     sendBroadcasts("com.setscan.qianzhui", s);
@@ -463,6 +469,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         }).setNegativeButton(getString(R.string.dialog_cancel), null).show();
 
     }
+
+
 
     private ListView lv; //加上ALL共47个 0-46
     private final String[] items = {"UPCA", "UPCA_2CHAR_ADDENDA", "UPCA_5CHAR_ADDENDA", "UPCE0", "UPCE1",
