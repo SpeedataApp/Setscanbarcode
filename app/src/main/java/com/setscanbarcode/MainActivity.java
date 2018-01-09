@@ -484,7 +484,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private void showMultiChoiceItems() {
         Log.i(TAG, "showMultiChoiceItems: " + Arrays.toString(boolArr));
         for (int i = 0; i < boolArr.length; i++) {
-            if (i == 8 || i == 11 || i == 15 || i == 42){
+            if (i >= 8 && i <= 15 || i == 42){
                 boolArr[i] = preferencesUtil.read("decodetype" + i, true);
                 Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
             } else {
@@ -638,12 +638,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                     preferencesUtil.write(isFront, true);
                                     preferencesUtil.write(jiluxuanze, getString(R.string.scanning_head_decode));
                                     contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.scanning_head_decode)));
+                                    contentBean7.setEnable(true);
                                 } else if (display[1]){
                                     SystemProperties.set("persist.sys.scancamera", "back");
                                     sendBroadcast("com.setscan.front", false);
                                     preferencesUtil.write(isFront, false);
                                     preferencesUtil.write(jiluxuanze, getString(R.string.rear_camera_decode));
                                     contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.rear_camera_decode)));
+                                    contentBean7.setEnable(false);
                                 }
 
                             } else {
@@ -658,12 +660,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                     preferencesUtil.write(isFront, true);
                                     preferencesUtil.write(jiluxuanze, getString(R.string.scanning_head_decode));
                                     contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.scanning_head_decode)));
+                                    contentBean7.setEnable(true);
                                 } else if (display[1]) {
 
                                     SystemProperties.set("persist.sys.scancamera", "back");
                                     preferencesUtil.write(isFront, false);
                                     preferencesUtil.write(jiluxuanze, getString(R.string.rear_camera_decode));
                                     contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.rear_camera_decode)));
+                                    contentBean7.setEnable(false);
                                 }
 
                                 startService(BarcodeIntent);
@@ -672,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                 initEnable();
 
                             }
-                                contentBean1.setCheck(true);
+
                         } else {
                             //2,关闭扫描服务,已关闭则不做操作，未关闭则关闭
                             if (!isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
@@ -688,7 +692,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                             initEnable();
                             preferencesUtil.write(jiluxuanze, getString(R.string.close_quick_scan));
                             contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.close_quick_scan)));
-                            contentBean1.setCheck(false);
+
                         }
                         mAdapter.notifyDataSetChanged();
                     }
