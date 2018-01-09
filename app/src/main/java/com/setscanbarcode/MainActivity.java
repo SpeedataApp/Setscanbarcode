@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 //                        boolArr[which] = isChecked;
                         if (which != 46 && isChecked) {
-                            preferencesUtil.write("decodetype" + which, isChecked);
+
                             boolArr[which] = isChecked;
                         } else if (which != 46 && !isChecked) {
                             SparseBooleanArray sb;
@@ -517,7 +517,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                     lv.setItemChecked(46, false);
                                 }
                             boolArr[which] = isChecked;
-                            preferencesUtil.write("decodetype" + which, isChecked);
+
                         }
 
                         if (which == 46 && isChecked){ //如果全选，则为全选
@@ -531,7 +531,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                             }
                             for (int i = 0; i < 47; i++) {
                                 boolArr[i] = true;
-                                preferencesUtil.write("decodetype" + i, true);
+
                             }
                         } else if (which == 46 && !isChecked) {
                             //把显示的勾选全置为false
@@ -541,9 +541,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                             lv.clearChoices();
                             lv.setSelection(46);
 
-                            for (int i = 0; i < 47; i++) {
-                                preferencesUtil.write("decodetype" + i, false);
-                            }
+
                         }
 
 
@@ -556,6 +554,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         String[] decodeTypes = new String[boolArr.length];
                         for (int i = 0; i < boolArr.length; i++) {
                                 decodeTypes[j] = items[i];
+                                preferencesUtil.write("decodetype" + i, boolArr[i]);
                                 j++;
                         }
 
