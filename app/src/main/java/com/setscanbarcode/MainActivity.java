@@ -21,6 +21,7 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.setscanbarcode.adapter.ContentAdapter;
 import com.setscanbarcode.bean.ContentBean;
@@ -412,7 +413,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
             case 9:
                 //补光灯
-                // TODO: 2018/1/2 判断一下，前置就控制水哥的代码，后置就正常。注意前后置切换时的开关
+                // TODO: 2018/1/2 判断一下，后置正在扫描时不可修改
+                if(isWorked(this, "com.scanbarcodeservice.FxService")){
+                    break;
+                }
 
                 if (b) {
                     sendBroadcast("com.setscan.flash", true);
@@ -441,8 +445,16 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     private void showInputDialog(String title) {
         final EditText editText = new EditText(this);
-        AlertDialog.Builder inputDialog = new AlertDialog.Builder(this);
-        inputDialog.setTitle(title).setView(editText);
+        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle(title).setView(editText).setPositiveButton(getString(R.string.dialog_sure), null)
+                .setNegativeButton(getString(R.string.dialog_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        //这里必须要先调show()方法，后面的getButton才有效
+        dialog.show();
 
         if(position == 11){
             editText.setText(preferencesUtil.read(qianzhui, ""));
@@ -453,11 +465,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         Editable text = editText.getText();
         Selection.setSelection(text, text.length());
 
-        inputDialog.setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String s = editText.getText().toString();
 
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = editText.getText().toString();
+                if(s.length() > 20) {
+                    Toast.makeText(MainActivity.this, getString(R.string.scan_too_long_toast), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (position == 11) {
                     preferencesUtil.write(qianzhui, s);
                     sendBroadcasts("com.setscan.qianzhui", s);
@@ -465,8 +481,39 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     preferencesUtil.write(houzhui, s);
                     sendBroadcasts("com.setscan.houzhui", s);
                 }
+                dialog.dismiss();
             }
-        }).setNegativeButton(getString(R.string.dialog_cancel), null).show();
+        });
+
+//        final EditText editText = new EditText(this);
+//        final AlertDialog.Builder inputDialog = new AlertDialog.Builder(this);
+//
+//        inputDialog.setTitle(title).setView(editText);
+//
+//        if(position == 11){
+//            editText.setText(preferencesUtil.read(qianzhui, ""));
+//        }else if(position == 12){
+//            editText.setText(preferencesUtil.read(houzhui, ""));
+//        }
+//        //将光标移动到最后显示最下面的信息.
+//        Editable text = editText.getText();
+//        Selection.setSelection(text, text.length());
+//
+//
+//        inputDialog.setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String s = editText.getText().toString();
+//
+//                if (position == 11) {
+//                    preferencesUtil.write(qianzhui, s);
+//                    sendBroadcasts("com.setscan.qianzhui", s);
+//                } else if (position == 12) {
+//                    preferencesUtil.write(houzhui, s);
+//                    sendBroadcasts("com.setscan.houzhui", s);
+//                }
+//            }
+//        }).setNegativeButton(getString(R.string.dialog_cancel), null).show();
 
     }
 

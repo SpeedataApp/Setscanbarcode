@@ -44,5 +44,6 @@
     <string name="close_quick_scan">关闭快捷扫描</string>
     <string name="select_the_scan_head_or_close_the_quick_scan">选择扫描头或关闭快捷扫描</string>
     <string name="click_to_select_scan_head_or_turn_off_scan">点击选择扫描头或关闭扫描</string>
+    <string name="scan_too_long_toast">字符串长度不能大于20</string>
 
 </resources>

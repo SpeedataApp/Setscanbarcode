@@ -44,5 +44,6 @@
     <string name="close_quick_scan">Close quick scan</string>
     <string name="select_the_scan_head_or_close_the_quick_scan">Select the scan head or close the quick scan</string>
     <string name="click_to_select_scan_head_or_turn_off_scan">Click to select scan head or turn off scan</string>
+    <string name="scan_too_long_toast">String length can not be greater than 20</string>
 
 </resources>
