@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     boolean[] boolArr;
     boolean[] display;
     String TAG = "SETSCAN";
-    private String INIT_SERVICE = "com.scanservice.init";
+    private String INIT_jihuo = "com.scanservice.jihuo";
+    private String INIT_jihuomiaoshu = "com.scanservice.jihuomiaoshu";
 
     private ContentBean contentBean1;
     private ContentBean contentBean2;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private ContentBean contentBean9;
     private ContentBean contentBean10;
     private ContentBean contentBean11;
+    private ContentBean contentBean103;
 
 
     @Override
@@ -194,6 +196,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean11.setCheck(false);
         mList.add(contentBean11);
 
+        //14.激活状态
+        contentBean103 = new ContentBean();
+        contentBean103.setTitle(preferencesUtil.read(jihuo, "未激活"));
+        contentBean103.setDescribe(preferencesUtil.read(jihuomiaoshu, ""));
+        contentBean103.setTvVisible(true);
+        contentBean103.setCbVisible(false);
+        contentBean103.setCheck(false);
+        mList.add(contentBean103);
+
         contentBean1.setEnable(true);
         contentBean2.setEnable(true);
         contentBean3.setEnable(true);
@@ -278,7 +289,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     //调整设置界面，修改显示效果
     private static String jiluxuanze = "jiluxuanze";
     private static String miaozhundeng = "miaozhundeng";
-    private static String buguangdeng = "buguangdeng";
+    private static String jihuo = "jihuo";
+    private static String jihuomiaoshu = "jihuomiaoshu";
+
 
     private int position;
 
@@ -759,6 +772,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     @Override
     protected void onDestroy() {
+        unregisterReceiver(receiver);
         super.onDestroy();
 
     }
@@ -766,7 +780,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     //接收扫描服务的广播,使选项能够改变使用状态
     private void intentFilter() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(INIT_SERVICE);
+        filter.addAction(INIT_jihuo);
+        filter.addAction(INIT_jihuomiaoshu);
         registerReceiver(receiver, filter);
     }
 
@@ -775,10 +790,17 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         public void onReceive(Context context, Intent intent) {
             String state = intent.getAction();
             assert state != null;
-            if (state.equals(INIT_SERVICE)) {
-                initEnable();
-                mAdapter.notifyDataSetChanged();
+            if (state.equals(INIT_jihuo)) {
+                //比对发来的信息，存入pre，更改按钮显示
+                String s = intent.getExtras().getString("message");
+                preferencesUtil.write(jihuo, s);
+                contentBean103.setTitle(preferencesUtil.read(jihuo, "未激活"));
+            } else if (state.equals(INIT_jihuomiaoshu)){
+                String s = intent.getExtras().getString("message");
+                preferencesUtil.write(jihuomiaoshu, s);
+                contentBean103.setDescribe(preferencesUtil.read(jihuomiaoshu, ""));
             }
+            mAdapter.notifyDataSetChanged();
         }
     };
 
