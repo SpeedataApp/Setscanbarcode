@@ -3,6 +3,7 @@ package com.setscanbarcode.adapter;
 import android.content.Context;
 import android.graphics.Color;
 
+import com.setscanbarcode.MainActivity;
 import com.setscanbarcode.R;
 import com.setscanbarcode.bean.ContentBean;
 
@@ -14,9 +15,10 @@ import win.reginer.adapter.CommonRvAdapter;
 
 public class ContentAdapter extends CommonRvAdapter<ContentBean> {
 
-
+    public Context mContext;
     public ContentAdapter(Context context, int layoutResId, List<ContentBean> data) {
         super(context, layoutResId, data);
+        mContext = context;
     }
 
     @Override
@@ -34,5 +36,8 @@ public class ContentAdapter extends CommonRvAdapter<ContentBean> {
             helper.setTextColor(R.id.tv_describe,Color.rgb(117,117,117));
         }
 
+        if (MainActivity.isWorked(mContext, "com.scanbarcodeservice.FxService")) {
+
+        }
     }
 }

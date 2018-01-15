@@ -782,7 +782,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         IntentFilter filter = new IntentFilter();
         filter.addAction(INIT_jihuo);
         filter.addAction(INIT_jihuomiaoshu);
-        registerReceiver(receiver, filter);
+        this.registerReceiver(receiver, filter);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
