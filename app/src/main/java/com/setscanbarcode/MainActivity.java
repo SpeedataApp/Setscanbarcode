@@ -746,14 +746,13 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
                         } else {
                             //2,关闭扫描服务,已关闭则不做操作，未关闭则关闭
-                            if (!isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
-                                return;
+                            if (isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
+                                Intent BarcodeIntent = new Intent();
+                                ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+                                BarcodeIntent.setComponent(cn);
+                                stopService(BarcodeIntent);
                             }
 
-                            Intent BarcodeIntent = new Intent();
-                            ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
-                            BarcodeIntent.setComponent(cn);
-                            stopService(BarcodeIntent);
                             preferencesUtil.write(isEnable, false);
                             SystemProperties.set("persist.sys.keyreport","false");
                             initEnable();
