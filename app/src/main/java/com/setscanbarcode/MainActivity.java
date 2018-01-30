@@ -32,6 +32,44 @@ import java.util.List;
 
 import win.reginer.adapter.CommonRvAdapter;
 
+import static com.setscanbarcode.SetConstant.CONTINUOUS;
+import static com.setscanbarcode.SetConstant.DECODEFLAG;
+import static com.setscanbarcode.SetConstant.DECODE_TYPE;
+import static com.setscanbarcode.SetConstant.DISPLAYTYPE;
+import static com.setscanbarcode.SetConstant.ENABLEDECODE;
+import static com.setscanbarcode.SetConstant.ENABLEFLAG;
+import static com.setscanbarcode.SetConstant.FLASH;
+import static com.setscanbarcode.SetConstant.FRONT;
+import static com.setscanbarcode.SetConstant.FXSERVICE_RE;
+import static com.setscanbarcode.SetConstant.HOUZHUI;
+import static com.setscanbarcode.SetConstant.INIT_JIHUO;
+import static com.setscanbarcode.SetConstant.INIT_JIHUOMIAOSHU;
+import static com.setscanbarcode.SetConstant.ISCONTINUOUS;
+import static com.setscanbarcode.SetConstant.ISENABLE;
+import static com.setscanbarcode.SetConstant.ISFLASH;
+import static com.setscanbarcode.SetConstant.ISFRONT;
+import static com.setscanbarcode.SetConstant.ISSAVEIMAGE;
+import static com.setscanbarcode.SetConstant.ISSHOWDECODE;
+import static com.setscanbarcode.SetConstant.ISSOUND;
+import static com.setscanbarcode.SetConstant.ISVIBRATOR;
+import static com.setscanbarcode.SetConstant.JIHUO;
+import static com.setscanbarcode.SetConstant.JIHUOMIAOSHU;
+import static com.setscanbarcode.SetConstant.JILUXUANZE;
+import static com.setscanbarcode.SetConstant.KEYREPORT;
+import static com.setscanbarcode.SetConstant.MIAOZHUNDENG;
+import static com.setscanbarcode.SetConstant.PREFIX;
+import static com.setscanbarcode.SetConstant.QIANZHUI;
+import static com.setscanbarcode.SetConstant.SAVE_IMAGE;
+import static com.setscanbarcode.SetConstant.SCANCAMERA;
+import static com.setscanbarcode.SetConstant.SCANSERVICES_RE;
+import static com.setscanbarcode.SetConstant.SCAN_RE;
+import static com.setscanbarcode.SetConstant.SHOW_DECODE;
+import static com.setscanbarcode.SetConstant.SIGHT_LIGHT;
+import static com.setscanbarcode.SetConstant.SOUND;
+import static com.setscanbarcode.SetConstant.STARTSCAN;
+import static com.setscanbarcode.SetConstant.SUFFIX;
+import static com.setscanbarcode.SetConstant.VIBRATOR;
+
 
 public class MainActivity extends AppCompatActivity implements CommonRvAdapter.OnItemClickListener {
 
@@ -41,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     boolean[] boolArr;
     boolean[] display;
     String TAG = "SETSCAN";
-    private String INIT_jihuo = "com.scanservice.jihuo";
-    private String INIT_jihuomiaoshu = "com.scanservice.jihuomiaoshu";
+
 
     private ContentBean contentBean1;
     private ContentBean contentBean2;
@@ -84,10 +121,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         //1.启动快捷扫描
         contentBean1 = new ContentBean();
         contentBean1.setTitle(getString(R.string.scan_key));
-        contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.click_to_select_scan_head_or_turn_off_scan)));
+        contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.click_to_select_scan_head_or_turn_off_scan)));
         contentBean1.setTvVisible(true);
         contentBean1.setCbVisible(false);
-        contentBean1.setCheck(preferencesUtil.read(isEnable, false));
+        contentBean1.setCheck(preferencesUtil.read(ISENABLE, false));
         mList.add(contentBean1);
 
         //2.文字：扫描成功
@@ -105,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean2.setDescribe(getString(R.string.describe_scan_results));
         contentBean2.setTvVisible(true);
         contentBean2.setCbVisible(true);
-        contentBean2.setCheck(preferencesUtil.read(isShowdecode, true));
+        contentBean2.setCheck(preferencesUtil.read(ISSHOWDECODE, true));
         mList.add(contentBean2);
 
         //4.提示音
@@ -114,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean3.setDescribe(getString(R.string.describe_scan_sound));
         contentBean3.setTvVisible(true);
         contentBean3.setCbVisible(true);
-        contentBean3.setCheck(preferencesUtil.read(isSound, true));
+        contentBean3.setCheck(preferencesUtil.read(ISSOUND, true));
         mList.add(contentBean3);
 
         //5.震动
@@ -123,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean4.setDescribe(getString(R.string.describe_scan_vibration));
         contentBean4.setTvVisible(true);
         contentBean4.setCbVisible(true);
-        contentBean4.setCheck(preferencesUtil.read(isVibrator, true));
+        contentBean4.setCheck(preferencesUtil.read(ISVIBRATOR, true));
         mList.add(contentBean4);
 
         //6.保存图片
@@ -132,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean5.setDescribe(getString(R.string.describe_save_image));
         contentBean5.setTvVisible(true);
         contentBean5.setCbVisible(true);
-        contentBean5.setCheck(preferencesUtil.read(isSaveImage, false));
+        contentBean5.setCheck(preferencesUtil.read(ISSAVEIMAGE, false));
         mList.add(contentBean5);
 
         //7.文字：扫描设置
@@ -150,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean6.setDescribe(getString(R.string.describe_continuous_scan));
         contentBean6.setTvVisible(true);
         contentBean6.setCbVisible(true);
-        contentBean6.setCheck(preferencesUtil.read(isContinuous, false));
+        contentBean6.setCheck(preferencesUtil.read(ISCONTINUOUS, false));
         mList.add(contentBean6);
 
         //9.瞄准灯
@@ -159,14 +196,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean7.setDescribe(getString(R.string.aiming_lamp_description));
         contentBean7.setTvVisible(true);
         contentBean7.setCbVisible(true);
-        contentBean7.setCheck(preferencesUtil.read(miaozhundeng, true));
+        contentBean7.setCheck(preferencesUtil.read(MIAOZHUNDENG, true));
         mList.add(contentBean7);
 
         //10.补光灯
         contentBean8 = new ContentBean();
         contentBean8.setTitle(getString(R.string.fill_light));
         contentBean8.setDescribe(getString(R.string.white_light));
-        contentBean8.setCheck(preferencesUtil.read(isFlash, true));
+        contentBean8.setCheck(preferencesUtil.read(ISFLASH, true));
         contentBean8.setTvVisible(true);
         contentBean8.setCbVisible(true);
         mList.add(contentBean8);
@@ -198,8 +235,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
         //14.激活状态
         contentBean103 = new ContentBean();
-        contentBean103.setTitle(preferencesUtil.read(jihuo, "未激活"));
-        contentBean103.setDescribe(preferencesUtil.read(jihuomiaoshu, ""));
+        contentBean103.setTitle(preferencesUtil.read(JIHUO, "未激活"));
+        contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
         contentBean103.setTvVisible(true);
         contentBean103.setCbVisible(false);
         contentBean103.setCheck(false);
@@ -222,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
     //修改设置选项可点击与不可点击
     private void initEnable() {
-        if (preferencesUtil.read(isEnable, true)) {
+        if (preferencesUtil.read(ISENABLE, true)) {
 
             contentBean2.setEnable(true);
             contentBean3.setEnable(true);
@@ -264,33 +301,18 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private void sendBroadcast(String stirng, boolean b) {
         Intent intent = new Intent();
         intent.setAction(stirng);
-        intent.putExtra("enableDecode", b);
+        intent.putExtra(ENABLEDECODE, b);
         sendBroadcast(intent);
     }
 
     private void sendBroadcasts(String stirng, String s) {
         Intent intent = new Intent();
         intent.setAction(stirng);
-        intent.putExtra("enableDecode", s);
+        intent.putExtra(ENABLEDECODE, s);
         sendBroadcast(intent);
     }
 
-    private static String isFront = "isfront";
-    private static String isEnable = "isenable";
-    private static String isShowdecode = "isshowdecode";
-    private static String isSound = "issound";
-    private static String isVibrator = "isvibrator";
-    private static String isFlash = "isflash";
-    private static String isContinuous = "iscontinuous";
-    private static String isSaveImage = "issaveimage";
-    private static String qianzhui = "qianzhui";
-    private static String houzhui = "houzhui";
 
-    //调整设置界面，修改显示效果
-    private static String jiluxuanze = "jiluxuanze";
-    private static String miaozhundeng = "miaozhundeng";
-    private static String jihuo = "jihuo";
-    private static String jihuomiaoshu = "jihuomiaoshu";
 
 
     private int position;
@@ -303,7 +325,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         Log.d(TAG, "点击了:" + position );
         switch (position) {
             case 0:
-                if(isWorked(this, "com.scanbarcodeservice.FxService")){
+               //if(isWorked(this, FXSERVICE)){
+                    if(isWorked(this, FXSERVICE_RE)){
                     break;
                 }
                 //弹出对话框，选择摄像头解码或关闭。
@@ -361,41 +384,41 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             case 2:
                 //焦点扫描，显示扫描结果
                 if (b) {
-                    sendBroadcast("com.setscan.showdecode", true);
-                    preferencesUtil.write(isShowdecode, b);
+                    sendBroadcast(SHOW_DECODE, true);
+                    preferencesUtil.write(ISSHOWDECODE, b);
                 } else {
-                    sendBroadcast("com.setscan.showdecode", false);
-                    preferencesUtil.write(isShowdecode, b);
+                    sendBroadcast(SHOW_DECODE, false);
+                    preferencesUtil.write(ISSHOWDECODE, b);
                 }
                 break;
             case 3:
                 //提示音
                 if (b) {
-                    sendBroadcast("com.setscan.sound", true);
-                    preferencesUtil.write(isSound, b);
+                    sendBroadcast(SOUND, true);
+                    preferencesUtil.write(ISSOUND, b);
                 } else {
-                    sendBroadcast("com.setscan.sound", false);
-                    preferencesUtil.write(isSound, b);
+                    sendBroadcast(SOUND, false);
+                    preferencesUtil.write(ISSOUND, b);
                 }
                 break;
             case 4:
                 //震动
                 if (b) {
-                    sendBroadcast("com.setscan.vibrator", true);
-                    preferencesUtil.write(isVibrator, b);
+                    sendBroadcast(VIBRATOR, true);
+                    preferencesUtil.write(ISVIBRATOR, b);
                 } else {
-                    sendBroadcast("com.setscan.vibrator", false);
-                    preferencesUtil.write(isVibrator, b);
+                    sendBroadcast(VIBRATOR, false);
+                    preferencesUtil.write(ISVIBRATOR, b);
                 }
                 break;
             case 5:
                 //保存图片
                 if (b) {
-                    sendBroadcast("com.setscan.issaveimage", true);
-                    preferencesUtil.write(isSaveImage, b);
+                    sendBroadcast(SAVE_IMAGE, true);
+                    preferencesUtil.write(ISSAVEIMAGE, b);
                 } else {
-                    sendBroadcast("com.setscan.issaveimage", false);
-                    preferencesUtil.write(isSaveImage, b);
+                    sendBroadcast(SAVE_IMAGE, false);
+                    preferencesUtil.write(ISSAVEIMAGE, b);
                 }
                 break;
             case 6:
@@ -404,39 +427,45 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             case 7:
                 //连续扫描
                 if (b) {
-                    sendBroadcast("com.setscan.continuous", true);
-                    preferencesUtil.write(isContinuous, b);
+                    sendBroadcast(CONTINUOUS, true);
+                    preferencesUtil.write(ISCONTINUOUS, b);
                 } else {
-                    sendBroadcast("com.setscan.continuous", false);
-                    preferencesUtil.write(isContinuous, b);
+                    sendBroadcast(CONTINUOUS, false);
+                    preferencesUtil.write(ISCONTINUOUS, b);
                 }
                 break;
             case 8:
                 //瞄准灯，同补光灯一样。当后置时，此选项不可用
-                if(SystemProperties.get("persist.sys.scancamera").equals("back")) {
+                if("back".equals(SystemProperties.get(SCANCAMERA))) {
                     break;
                 }
                 if (b) {
-                    sendBroadcast("com.setscan.miaozhundeng", true);
-                    preferencesUtil.write(miaozhundeng, b);
+                    sendBroadcast(SIGHT_LIGHT, true);
+                    preferencesUtil.write(MIAOZHUNDENG, b);
                 } else {
-                    sendBroadcast("com.setscan.miaozhundeng", false);
-                    preferencesUtil.write(miaozhundeng, b);
+                    sendBroadcast(SIGHT_LIGHT, false);
+                    preferencesUtil.write(MIAOZHUNDENG, b);
                 }
                 break;
             case 9:
                 //补光灯
                 // TODO: 2018/1/2 判断一下，后置正在扫描时不可修改
-                if(isWorked(this, "com.scanbarcodeservice.FxService")){
+                //if(isWorked(this, "com.scanbarcodeservice.FxService")){
+                if(isWorked(this, FXSERVICE_RE)){
                     break;
+                }
+                if("true".equals(SystemProperties.get(STARTSCAN))) {
+                    if ("back".equals(SystemProperties.get(SCANCAMERA))) {
+                        break;
+                    }
                 }
 
                 if (b) {
-                    sendBroadcast("com.setscan.flash", true);
-                    preferencesUtil.write(isFlash, b);
+                    sendBroadcast(FLASH, true);
+                    preferencesUtil.write(ISFLASH, b);
                 } else {
-                    sendBroadcast("com.setscan.flash", false);
-                    preferencesUtil.write(isFlash, b);
+                    sendBroadcast(FLASH, false);
+                    preferencesUtil.write(ISFLASH, b);
                 }
                 break;
             case 10:
@@ -470,9 +499,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         dialog.show();
 
         if(position == 11){
-            editText.setText(preferencesUtil.read(qianzhui, ""));
+            editText.setText(preferencesUtil.read(QIANZHUI, ""));
         }else if(position == 12){
-            editText.setText(preferencesUtil.read(houzhui, ""));
+            editText.setText(preferencesUtil.read(HOUZHUI, ""));
         }
         //将光标移动到最后显示最下面的信息.
         Editable text = editText.getText();
@@ -488,11 +517,11 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     return;
                 }
                 if (position == 11) {
-                    preferencesUtil.write(qianzhui, s);
-                    sendBroadcasts("com.setscan.qianzhui", s);
+                    preferencesUtil.write(QIANZHUI, s);
+                    sendBroadcasts(PREFIX, s);
                 } else if (position == 12) {
-                    preferencesUtil.write(houzhui, s);
-                    sendBroadcasts("com.setscan.houzhui", s);
+                    preferencesUtil.write(HOUZHUI, s);
+                    sendBroadcasts(SUFFIX, s);
                 }
                 dialog.dismiss();
             }
@@ -552,11 +581,11 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private void showMultiChoiceItems() {
         Log.i(TAG, "showMultiChoiceItems: " + Arrays.toString(boolArr));
         for (int i = 0; i < boolArr.length; i++) {
-            if (i >= 8 && i <= 15 || i == 42){
-                boolArr[i] = preferencesUtil.read("decodetype" + i, true);
+            if (i == 8 || i == 11 || i == 15 || i == 42){
+                boolArr[i] = preferencesUtil.read(DECODEFLAG + i, true);
                 Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
             } else {
-                boolArr[i] = preferencesUtil.read("decodetype" + i, false);
+                boolArr[i] = preferencesUtil.read(DECODEFLAG + i, false);
                 Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
             }
 
@@ -614,15 +643,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         String[] decodeTypes = new String[boolArr.length];
                         for (int i = 0; i < boolArr.length; i++) {
                                 decodeTypes[j] = items[i];
-                                preferencesUtil.write("decodetype" + i, boolArr[i]);
+                                preferencesUtil.write(DECODEFLAG + i, boolArr[i]);
                                 j++;
                         }
 
                         Intent intent = new Intent();
-                        intent.setAction("com.setscan.decodetype");
+                        intent.setAction(DECODE_TYPE);
                         Bundle bundle = new Bundle();
-                        bundle.putStringArray("enableDecode", decodeTypes);
-                        bundle.putBooleanArray("enableflag", boolArr);
+                        bundle.putStringArray(ENABLEDECODE, decodeTypes);
+                        bundle.putBooleanArray(ENABLEFLAG, boolArr);
                         intent.putExtras(bundle);
                         sendBroadcast(intent);
 
@@ -641,7 +670,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         Log.i(TAG, "DisplayCameraSelection: " + Arrays.toString(display));
         int choose = 2;
         for (int i = 0; i < display.length; i++) {
-            display[i] = preferencesUtil.read("displaytype" + i, false);
+            display[i] = preferencesUtil.read(DISPLAYTYPE + i, false);
             if (display[i]){
                 choose = i;
             }
@@ -681,7 +710,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     public void onClick(DialogInterface dialog, int which) {
 
                         for (int i = 0; i < display.length; i++) {
-                            preferencesUtil.write("displaytype" + i, display[i]);
+                            preferencesUtil.write(DISPLAYTYPE + i, display[i]);
                         }
 
                         //发广播，判断一下服务起没起，没起来就起服务，起来了就只改摄像头
@@ -697,68 +726,72 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
                         if (display[0] ||display[1]){
                             //扫描头0，摄像头1
-                            if (isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")) {
+                            //if (isWorked(MainActivity.this, SCANSERVICES)) {
+                            if (isWorked(MainActivity.this, SCANSERVICES_RE)) {
                                 //在运行就只发广播
                                 if (display[0]){
-                                    SystemProperties.set("persist.sys.scancamera", "front");
-                                    sendBroadcast("com.setscan.front", true);
-                                    preferencesUtil.write(isFront, true);
-                                    preferencesUtil.write(jiluxuanze, getString(R.string.scanning_head_decode));
-                                    contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.scanning_head_decode)));
+                                    SystemProperties.set(SCANCAMERA, "front");
+                                    sendBroadcast(FRONT, true);
+                                    preferencesUtil.write(ISFRONT, true);
+                                    preferencesUtil.write(JILUXUANZE, getString(R.string.scanning_head_decode));
+                                    contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.scanning_head_decode)));
                                     contentBean7.setEnable(true);
                                 } else if (display[1]){
-                                    SystemProperties.set("persist.sys.scancamera", "back");
-                                    sendBroadcast("com.setscan.front", false);
-                                    preferencesUtil.write(isFront, false);
-                                    preferencesUtil.write(jiluxuanze, getString(R.string.rear_camera_decode));
-                                    contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.rear_camera_decode)));
+                                    SystemProperties.set(SCANCAMERA, "back");
+                                    sendBroadcast(FRONT, false);
+                                    preferencesUtil.write(ISFRONT, false);
+                                    preferencesUtil.write(JILUXUANZE, getString(R.string.rear_camera_decode));
+                                    contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.rear_camera_decode)));
                                     contentBean7.setEnable(false);
                                 }
 
                             } else {
                                 //服务没运行，则启动服务并在intent中加入摄像头的选择
                                 Intent BarcodeIntent = new Intent();
-                                ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+                                //ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+                                ComponentName cn = new ComponentName(SCAN_RE,SCANSERVICES_RE);
                                 BarcodeIntent.setComponent(cn);
                                 // TODO: 2018/1/2 向intent中添加前后置的请求，可以直接发给服务，让服务判断systemproperties后选取前后置
                                 if (display[0]) {
 
-                                    SystemProperties.set("persist.sys.scancamera", "front");
-                                    preferencesUtil.write(isFront, true);
-                                    preferencesUtil.write(jiluxuanze, getString(R.string.scanning_head_decode));
-                                    contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.scanning_head_decode)));
+                                    SystemProperties.set(SCANCAMERA, "front");
+                                    preferencesUtil.write(ISFRONT, true);
+                                    preferencesUtil.write(JILUXUANZE, getString(R.string.scanning_head_decode));
+                                    contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.scanning_head_decode)));
                                     contentBean7.setEnable(true);
                                 } else if (display[1]) {
 
-                                    SystemProperties.set("persist.sys.scancamera", "back");
-                                    preferencesUtil.write(isFront, false);
-                                    preferencesUtil.write(jiluxuanze, getString(R.string.rear_camera_decode));
-                                    contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.rear_camera_decode)));
+                                    SystemProperties.set(SCANCAMERA, "back");
+                                    preferencesUtil.write(ISFRONT, false);
+                                    preferencesUtil.write(JILUXUANZE, getString(R.string.rear_camera_decode));
+                                    contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.rear_camera_decode)));
                                     contentBean7.setEnable(false);
                                 }
 
                                 startService(BarcodeIntent);
-                                preferencesUtil.write(isEnable, true);
-                                SystemProperties.set("persist.sys.keyreport", "true");
+                                preferencesUtil.write(ISENABLE, true);
+                                SystemProperties.set(KEYREPORT, "true");
                                 initEnable();
 
                             }
 
                         } else {
                             //2,关闭扫描服务,已关闭则不做操作，未关闭则关闭
-                            if (!isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
+                            //if (!isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
+                            if (!isWorked(MainActivity.this, SCANSERVICES_RE)){
                                 return;
                             }
 
                             Intent BarcodeIntent = new Intent();
-                            ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+                            //ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
+                            ComponentName cn = new ComponentName(SCAN_RE,SCANSERVICES_RE);
                             BarcodeIntent.setComponent(cn);
                             stopService(BarcodeIntent);
-                            preferencesUtil.write(isEnable, false);
-                            SystemProperties.set("persist.sys.keyreport","false");
+                            preferencesUtil.write(ISENABLE, false);
+                            SystemProperties.set(KEYREPORT,"false");
                             initEnable();
-                            preferencesUtil.write(jiluxuanze, getString(R.string.close_quick_scan));
-                            contentBean1.setDescribe(preferencesUtil.read(jiluxuanze, getString(R.string.close_quick_scan)));
+                            preferencesUtil.write(JILUXUANZE, getString(R.string.close_quick_scan));
+                            contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.close_quick_scan)));
 
                         }
                         mAdapter.notifyDataSetChanged();
@@ -780,8 +813,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     //接收扫描服务的广播,使选项能够改变使用状态
     private void intentFilter() {
         IntentFilter filter = new IntentFilter();
-        filter.addAction(INIT_jihuo);
-        filter.addAction(INIT_jihuomiaoshu);
+        filter.addAction(INIT_JIHUO);
+        filter.addAction(INIT_JIHUOMIAOSHU);
         this.registerReceiver(receiver, filter);
     }
 
@@ -790,15 +823,15 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         public void onReceive(Context context, Intent intent) {
             String state = intent.getAction();
             assert state != null;
-            if (state.equals(INIT_jihuo)) {
+            if (state.equals(INIT_JIHUO)) {
                 //比对发来的信息，存入pre，更改按钮显示
                 String s = intent.getExtras().getString("message");
-                preferencesUtil.write(jihuo, s);
-                contentBean103.setTitle(preferencesUtil.read(jihuo, "未激活"));
-            } else if (state.equals(INIT_jihuomiaoshu)){
+                preferencesUtil.write(JIHUO, s);
+                contentBean103.setTitle(preferencesUtil.read(JIHUO, "未激活"));
+            } else if (state.equals(INIT_JIHUOMIAOSHU)){
                 String s = intent.getExtras().getString("message");
-                preferencesUtil.write(jihuomiaoshu, s);
-                contentBean103.setDescribe(preferencesUtil.read(jihuomiaoshu, ""));
+                preferencesUtil.write(JIHUOMIAOSHU, s);
+                contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
             }
             mAdapter.notifyDataSetChanged();
         }
@@ -822,6 +855,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             }
         }
         return false;
+
     }
 
 

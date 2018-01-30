@@ -2,8 +2,8 @@ package com.setscanbarcode.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 
-import com.setscanbarcode.MainActivity;
 import com.setscanbarcode.R;
 import com.setscanbarcode.bean.ContentBean;
 
@@ -30,14 +30,12 @@ public class ContentAdapter extends CommonRvAdapter<ContentBean> {
         helper.setVisible(R.id.tv_describe,item.isTvVisible());
         helper.setEnabled(R.id.ll_item, item.isEnable());
 
-        if (item.getTitle() == ""){
+        if (TextUtils.equals(item.getTitle(), "")) {
             helper.setTextColor(R.id.tv_describe, Color.rgb(41,167,155));
         } else {
             helper.setTextColor(R.id.tv_describe,Color.rgb(117,117,117));
         }
 
-        if (MainActivity.isWorked(mContext, "com.scanbarcodeservice.FxService")) {
 
-        }
     }
 }
