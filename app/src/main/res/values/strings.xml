@@ -24,7 +24,7 @@
     <string name="describe_save_image"> Save the current barcode picture to the album</string>
 
 
-    <string name="barcode_type">Barcode Type</string>
+    <string name="scan_barcode_type">Barcode Type</string>
     <string name="custom_prefix">Custom Prefix</string>
     <string name="custom_suffix">Custom Suffix</string>
     <string name="dialog_sure">Confirm</string>
@@ -45,5 +45,7 @@
     <string name="select_the_scan_head_or_close_the_quick_scan">Select the scan head or close the quick scan</string>
     <string name="click_to_select_scan_head_or_turn_off_scan">Click to select scan head or turn off scan</string>
     <string name="scan_too_long_toast">String length can not be greater than 20</string>
+    <string name="scan_not_active">Not Active</string>
+    <string name="scan_already_activated">Already Activated</string>
 
 </resources>

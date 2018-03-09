@@ -209,8 +209,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         mList.add(contentBean8);
 
         //11.条码类型
+        // TODO: 2018/3/9 修复崩溃问题
         contentBean9 = new ContentBean();
-        contentBean9.setTitle(getString(R.string.barcode_type));
+        contentBean9.setTitle(getString(R.string.scan_barcode_type));
         contentBean9.setTvVisible(false);
         contentBean9.setCbVisible(false);
         contentBean9.setCheck(false);
@@ -235,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
         //14.激活状态
         contentBean103 = new ContentBean();
-        contentBean103.setTitle(preferencesUtil.read(JIHUO, "未激活"));
+        // TODO: 2018/3/9 修改激活信息显示
+        contentBean103.setTitle(preferencesUtil.read(JIHUO, getString(R.string.scan_not_active)));
         contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
         contentBean103.setTvVisible(true);
         contentBean103.setCbVisible(false);
@@ -330,14 +332,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     break;
                 }
                 //弹出对话框，选择摄像头解码或关闭。
-                // TODO: 2018/1/2 弹出对话框，详细设置在对话框选择后修改
+                //弹出对话框，详细设置在对话框选择后修改
                     DisplayCameraSelection();
 
 //                if (b) {
 //                    Intent BarcodeIntent = new Intent();
 //                    ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
 //                    BarcodeIntent.setComponent(cn);
-//                    // TODO: 2018/1/2 向intent中添加前后置的请求，可以直接发给服务，让服务获取intent后选取前后置
+//
 //                    this.startService(BarcodeIntent);
 //                    preferencesUtil.write(isEnable, b);
 //                    SystemProperties.set("persist.sys.keyreport", "true");
@@ -449,7 +451,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
             case 9:
                 //补光灯
-                // TODO: 2018/1/2 判断一下，后置正在扫描时不可修改
                 //if(isWorked(this, "com.scanbarcodeservice.FxService")){
                 if(isWorked(this, FXSERVICE_RE)){
                     break;
@@ -751,7 +752,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                 //ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
                                 ComponentName cn = new ComponentName(SCAN_RE,SCANSERVICES_RE);
                                 BarcodeIntent.setComponent(cn);
-                                // TODO: 2018/1/2 向intent中添加前后置的请求，可以直接发给服务，让服务判断systemproperties后选取前后置
+                                // 向intent中添加前后置的请求，可以直接发给服务，让服务判断systemproperties后选取前后置
                                 if (display[0]) {
 
                                     SystemProperties.set(SCANCAMERA, "front");
@@ -825,8 +826,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             if (state.equals(INIT_JIHUO)) {
                 //比对发来的信息，存入pre，更改按钮显示
                 String s = intent.getExtras().getString("message");
+                // TODO: 2018/3/9 修改激活 与未激活
+                if ("未激活".equals(s)) {
+                    s = getString(R.string.scan_not_active);
+                } else {
+                    s = getString(R.string.scan_already_activated);
+                }
                 preferencesUtil.write(JIHUO, s);
-                contentBean103.setTitle(preferencesUtil.read(JIHUO, "未激活"));
+                contentBean103.setTitle(preferencesUtil.read(JIHUO, getString(R.string.scan_not_active)));
             } else if (state.equals(INIT_JIHUOMIAOSHU)){
                 String s = intent.getExtras().getString("message");
                 preferencesUtil.write(JIHUOMIAOSHU, s);

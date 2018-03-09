@@ -24,7 +24,7 @@
     <string name="save_image">保存图片</string>
     <string name="describe_save_image"> 保存当前条码图片到相册</string>
 
-    <string name="barcode_type">条码类型</string>
+    <string name="scan_barcode_type">条码类型</string>
     <string name="custom_prefix">自定义前缀</string>
     <string name="custom_suffix">自定义后缀</string>
     <string name="dialog_sure">确定</string>
@@ -45,5 +45,7 @@
     <string name="select_the_scan_head_or_close_the_quick_scan">选择扫描头或关闭快捷扫描</string>
     <string name="click_to_select_scan_head_or_turn_off_scan">点击选择扫描头或关闭扫描</string>
     <string name="scan_too_long_toast">字符串长度不能大于20</string>
+    <string name="scan_not_active">未激活</string>
+    <string name="scan_already_activated">已激活</string>
 
 </resources>
