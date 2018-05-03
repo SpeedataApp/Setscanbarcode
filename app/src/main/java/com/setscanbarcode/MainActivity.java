@@ -36,6 +36,7 @@ import static com.setscanbarcode.SetConstant.CONTINUOUS;
 import static com.setscanbarcode.SetConstant.DECODEFLAG;
 import static com.setscanbarcode.SetConstant.DECODE_TYPE;
 import static com.setscanbarcode.SetConstant.DISPLAYTYPE;
+import static com.setscanbarcode.SetConstant.DISPLAYTYPES;
 import static com.setscanbarcode.SetConstant.ENABLEDECODE;
 import static com.setscanbarcode.SetConstant.ENABLEFLAG;
 import static com.setscanbarcode.SetConstant.FLASH;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     SharedPreferencesUtil preferencesUtil;
     boolean[] boolArr;
     boolean[] display;
+    // TODO: 2018/5/3
+    boolean[] display2;
     String TAG = "SETSCAN";
 
 
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private ContentBean contentBean9;
     private ContentBean contentBean10;
     private ContentBean contentBean11;
+    // TODO: 2018/5/3
+    private ContentBean contentBean12;
     private ContentBean contentBean103;
 
 
@@ -105,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         intentFilter();
         boolArr = new boolean[items.length];
         display = new boolean[displayItems.length];
+        // TODO: 2018/5/3
+        display2 = new boolean[displayItems2.length];
     }
 
     @Override
@@ -117,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
         displayItems = new String[]{getString(R.string.scanning_head_decode),
                 getString(R.string.rear_camera_decode), getString(R.string.close_quick_scan)};
+        // TODO: 2018/5/3
+        displayItems2 = getResources().getStringArray(R.array.add_keyvalue_entries);
 
         //1.启动快捷扫描
         contentBean1 = new ContentBean();
@@ -209,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         mList.add(contentBean8);
 
         //11.条码类型
-        // TODO: 2018/3/9 修复崩溃问题
         contentBean9 = new ContentBean();
         contentBean9.setTitle(getString(R.string.scan_barcode_type));
         contentBean9.setTvVisible(false);
@@ -234,9 +242,19 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean11.setCheck(false);
         mList.add(contentBean11);
 
+        // TODO: 2018/5/3
+        //14.附带键值
+        contentBean12 = new ContentBean();
+        contentBean12.setTitle(getString(R.string.with_key_value));
+        contentBean12.setDescribe("");
+        contentBean12.setTvVisible(false);
+        contentBean12.setCbVisible(false);
+        contentBean12.setCheck(false);
+        mList.add(contentBean12);
+
+
         //14.激活状态
         contentBean103 = new ContentBean();
-        // TODO: 2018/3/9 修改激活信息显示
         contentBean103.setTitle(preferencesUtil.read(JIHUO, getString(R.string.scan_not_active)));
         contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
         contentBean103.setTvVisible(true);
@@ -255,6 +273,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean9.setEnable(true);
         contentBean10.setEnable(true);
         contentBean11.setEnable(true);
+        // TODO: 2018/5/3
+        contentBean12.setEnable(true);
 
         initEnable();
     }
@@ -273,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             contentBean9.setEnable(true);
             contentBean10.setEnable(true);
             contentBean11.setEnable(true);
+            // TODO: 2018/5/3
+            contentBean12.setEnable(true);
         } else {
 
             contentBean2.setEnable(false);
@@ -285,6 +307,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             contentBean9.setEnable(false);
             contentBean10.setEnable(false);
             contentBean11.setEnable(false);
+            // TODO: 2018/5/3
+            contentBean12.setEnable(false);
         }
     }
 
@@ -315,8 +339,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     }
 
 
-
-
     private int position;
 
     @Override
@@ -324,16 +346,16 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         mList.get(position).setCheck(!mList.get(position).isCheck());
         boolean b = mList.get(position).isCheck();
         this.position = position;
-        Log.d(TAG, "点击了:" + position );
+        Log.d(TAG, "点击了:" + position);
         switch (position) {
             case 0:
-               //if(isWorked(this, FXSERVICE)){
-                    if(isWorked(this, FXSERVICE_RE)){
+                //if(isWorked(this, FXSERVICE)){
+                if (isWorked(this, FXSERVICE_RE)) {
                     break;
                 }
                 //弹出对话框，选择摄像头解码或关闭。
                 //弹出对话框，详细设置在对话框选择后修改
-                    DisplayCameraSelection();
+                DisplayCameraSelection();
 
 //                if (b) {
 //                    Intent BarcodeIntent = new Intent();
@@ -438,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 break;
             case 8:
                 //瞄准灯，同补光灯一样。当后置时，此选项不可用
-                if("back".equals(SystemProperties.get(SCANCAMERA))) {
+                if ("back".equals(SystemProperties.get(SCANCAMERA))) {
                     break;
                 }
                 if (b) {
@@ -452,10 +474,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             case 9:
                 //补光灯
                 //if(isWorked(this, "com.scanbarcodeservice.FxService")){
-                if(isWorked(this, FXSERVICE_RE)){
+                if (isWorked(this, FXSERVICE_RE)) {
                     break;
                 }
-                if("true".equals(SystemProperties.get(STARTSCAN))) {
+                if ("true".equals(SystemProperties.get(STARTSCAN))) {
                     if ("back".equals(SystemProperties.get(SCANCAMERA))) {
                         break;
                     }
@@ -478,12 +500,77 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             case 12:
                 showInputDialog(getString(R.string.custom_suffix));
                 break;
-
-                default:
-                    break;
+            // TODO: 2018/5/3
+            case 13:
+                showWithKeyValue();
+                break;
+            default:
+                break;
         }
 
         mAdapter.notifyDataSetChanged();
+    }
+
+    // TODO: 2018/5/3
+    private void showWithKeyValue() {
+        Log.i(TAG, "showWithKeyValue: " + Arrays.toString(display2));
+        int choose = 0;
+        for (int i = 0; i < display2.length; i++) {
+            display2[i] = preferencesUtil.read(DISPLAYTYPES + i, false);
+            if (display2[i]) {
+                choose = i;
+            }
+            Log.i(TAG, "showWithKeyValue: " + display2[i]);
+        }
+
+        //准备显示3个选项，极其相关使能的关系
+        final AlertDialog builder = new AlertDialog.Builder(this)
+                .setTitle(R.string.with_key_value)
+                .setSingleChoiceItems(displayItems2, choose, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            display2[which] = true;
+                            display2[1] = false;
+                            display2[2] = false;
+                        } else if (which == 1) {
+                            display2[0] = false;
+                            display2[which] = true;
+                            display2[2] = false;
+                        } else if (which == 2) {
+                            display2[0] = false;
+                            display2[1] = false;
+                            display2[which] = true;
+                        }
+                    }
+
+                }).setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < display2.length; i++) {
+                            preferencesUtil.write(DISPLAYTYPES + i, display2[i]);
+                        }
+                        if (display2[0] || display2[1]) {
+                            if (display2[0]) {
+                                SystemProperties.set("persist.sys.keywithoutkey", "true");
+                                SystemProperties.set("persist.sys.keyenter", "false");
+                                SystemProperties.set("persist.sys.keytab", "false");
+                            } else {
+                                SystemProperties.set("persist.sys.keyenter", "true");
+                                SystemProperties.set("persist.sys.keywithoutkey", "false");
+                                SystemProperties.set("persist.sys.keytab", "false");
+                            }
+                        } else {
+                            SystemProperties.set("persist.sys.keytab","true");
+                            SystemProperties.set("persist.sys.keywithoutkey","false");
+                            SystemProperties.set("persist.sys.keyenter","false");
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }).setNegativeButton(getString(R.string.dialog_cancel), null).create();
+        lv = builder.getListView();
+        builder.show();
+
     }
 
     private void showInputDialog(String title) {
@@ -499,9 +586,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         //这里必须要先调show()方法，后面的getButton才有效
         dialog.show();
 
-        if(position == 11){
+        if (position == 11) {
             editText.setText(preferencesUtil.read(QIANZHUI, ""));
-        }else if(position == 12){
+        } else if (position == 12) {
             editText.setText(preferencesUtil.read(HOUZHUI, ""));
         }
         //将光标移动到最后显示最下面的信息.
@@ -513,7 +600,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             @Override
             public void onClick(View v) {
                 String s = editText.getText().toString();
-                if(s.length() > 20) {
+                if (s.length() > 20) {
                     Toast.makeText(MainActivity.this, getString(R.string.scan_too_long_toast), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -561,7 +648,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     }
 
 
-
     private ListView lv; //加上ALL共47个 0-46
     private final String[] items = {"UPCA", "UPCA_2CHAR_ADDENDA", "UPCA_5CHAR_ADDENDA", "UPCE0", "UPCE1",
             "UPCE_EXPAND", "UPCE_2CHAR_ADDENDA", "UPCE_5CHAR_ADDENDA", "EAN8", "EAN8_2CHAR_ADDENDA",
@@ -573,7 +659,8 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
 
     private String[] displayItems = new String[3];
-
+    // TODO: 2018/5/3  
+    private String[] displayItems2 = new String[3];
 
 
     /**
@@ -582,7 +669,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     private void showMultiChoiceItems() {
         Log.i(TAG, "showMultiChoiceItems: " + Arrays.toString(boolArr));
         for (int i = 0; i < boolArr.length; i++) {
-            if (i == 8 || i == 11 || i == 15 || i == 42){
+            if (i == 8 || i == 11 || i == 15 || i == 42) {
                 boolArr[i] = preferencesUtil.read(DECODEFLAG + i, true);
                 Log.i(TAG, "showMultiChoiceItems: " + boolArr[i]);
             } else {
@@ -603,14 +690,14 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         } else if (which != 46 && !isChecked) {
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
-                                if (!sb.get(46)) {
-                                    lv.setItemChecked(46, false);
-                                }
+                            if (!sb.get(46)) {
+                                lv.setItemChecked(46, false);
+                            }
                             boolArr[which] = isChecked;
 
                         }
 
-                        if (which == 46 && isChecked){ //如果全选，则为全选
+                        if (which == 46 && isChecked) { //如果全选，则为全选
                             //把显示的勾选全置为ture
                             SparseBooleanArray sb;
                             sb = lv.getCheckedItemPositions();
@@ -643,9 +730,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                         int j = 0;
                         String[] decodeTypes = new String[boolArr.length];
                         for (int i = 0; i < boolArr.length; i++) {
-                                decodeTypes[j] = items[i];
-                                preferencesUtil.write(DECODEFLAG + i, boolArr[i]);
-                                j++;
+                            decodeTypes[j] = items[i];
+                            preferencesUtil.write(DECODEFLAG + i, boolArr[i]);
+                            j++;
                         }
 
                         Intent intent = new Intent();
@@ -672,7 +759,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         int choose = 2;
         for (int i = 0; i < display.length; i++) {
             display[i] = preferencesUtil.read(DISPLAYTYPE + i, false);
-            if (display[i]){
+            if (display[i]) {
                 choose = i;
             }
             Log.i(TAG, "DisplayCameraSelection: " + display[i]);
@@ -691,13 +778,13 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                             display[1] = false;
                             display[2] = false;
 
-                        } else if (which == 1 ) {
+                        } else if (which == 1) {
 
                             display[0] = false;
                             display[which] = true;
                             display[2] = false;
 
-                        } else if (which == 2 ) {
+                        } else if (which == 2) {
 
                             display[0] = false;
                             display[1] = false;
@@ -725,19 +812,19 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 //                        sendBroadcast(intent);
 
 
-                        if (display[0] ||display[1]){
+                        if (display[0] || display[1]) {
                             //扫描头0，摄像头1
                             //if (isWorked(MainActivity.this, SCANSERVICES)) {
                             if (isWorked(MainActivity.this, SCANSERVICES_RE)) {
                                 //在运行就只发广播
-                                if (display[0]){
+                                if (display[0]) {
                                     SystemProperties.set(SCANCAMERA, "front");
                                     sendBroadcast(FRONT, true);
                                     preferencesUtil.write(ISFRONT, true);
                                     preferencesUtil.write(JILUXUANZE, getString(R.string.scanning_head_decode));
                                     contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.scanning_head_decode)));
                                     contentBean7.setEnable(true);
-                                } else if (display[1]){
+                                } else if (display[1]) {
                                     SystemProperties.set(SCANCAMERA, "back");
                                     sendBroadcast(FRONT, false);
                                     preferencesUtil.write(ISFRONT, false);
@@ -750,7 +837,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                 //服务没运行，则启动服务并在intent中加入摄像头的选择
                                 Intent BarcodeIntent = new Intent();
                                 //ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
-                                ComponentName cn = new ComponentName(SCAN_RE,SCANSERVICES_RE);
+                                ComponentName cn = new ComponentName(SCAN_RE, SCANSERVICES_RE);
                                 BarcodeIntent.setComponent(cn);
                                 // 向intent中添加前后置的请求，可以直接发给服务，让服务判断systemproperties后选取前后置
                                 if (display[0]) {
@@ -778,17 +865,17 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
 
                         } else {
                             //2,关闭扫描服务,已关闭则不做操作，未关闭则关闭
-                           // if (isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
-                            if (isWorked(MainActivity.this, SCANSERVICES_RE)){
+                            // if (isWorked(MainActivity.this, "com.scanbarcodeservice.ScanServices")){
+                            if (isWorked(MainActivity.this, SCANSERVICES_RE)) {
                                 Intent BarcodeIntent = new Intent();
                                 //ComponentName cn = new ComponentName("com.scanservice","com.scanbarcodeservice.ScanServices");
-                                ComponentName cn = new ComponentName(SCAN_RE,SCANSERVICES_RE);
+                                ComponentName cn = new ComponentName(SCAN_RE, SCANSERVICES_RE);
                                 BarcodeIntent.setComponent(cn);
                                 stopService(BarcodeIntent);
                             }
 
                             preferencesUtil.write(ISENABLE, false);
-                            SystemProperties.set(KEYREPORT,"false");
+                            SystemProperties.set(KEYREPORT, "false");
                             initEnable();
                             preferencesUtil.write(JILUXUANZE, getString(R.string.close_quick_scan));
                             contentBean1.setDescribe(preferencesUtil.read(JILUXUANZE, getString(R.string.close_quick_scan)));
@@ -826,7 +913,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             if (state.equals(INIT_JIHUO)) {
                 //比对发来的信息，存入pre，更改按钮显示
                 String s = intent.getExtras().getString("message");
-                // TODO: 2018/3/9 修改激活 与未激活
                 if ("未激活".equals(s)) {
                     s = getString(R.string.scan_not_active);
                 } else {
@@ -834,7 +920,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 }
                 preferencesUtil.write(JIHUO, s);
                 contentBean103.setTitle(preferencesUtil.read(JIHUO, getString(R.string.scan_not_active)));
-            } else if (state.equals(INIT_JIHUOMIAOSHU)){
+            } else if (state.equals(INIT_JIHUOMIAOSHU)) {
                 String s = intent.getExtras().getString("message");
                 preferencesUtil.write(JIHUOMIAOSHU, s);
                 contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
@@ -863,7 +949,6 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         return false;
 
     }
-
 
 
 }

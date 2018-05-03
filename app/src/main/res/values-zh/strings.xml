@@ -47,5 +47,6 @@
     <string name="scan_too_long_toast">字符串长度不能大于20</string>
     <string name="scan_not_active">未激活</string>
     <string name="scan_already_activated">已激活</string>
+    <string name="with_key_value">附带键值</string>
 
 </resources>

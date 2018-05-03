@@ -148,6 +148,8 @@ public class SetConstant {
     public static final String SAVEIMAGE = "SaveImage";
 
     public static final String DISPLAYTYPE = "displaytype";
+    // TODO: 2018/5/3  
+    public static final String DISPLAYTYPES = "displaytypes";
 
     /**
      * 预览服务的包名，用于判断预览框是否在运行

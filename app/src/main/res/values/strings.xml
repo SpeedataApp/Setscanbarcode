@@ -47,5 +47,6 @@
     <string name="scan_too_long_toast">String length can not be greater than 20</string>
     <string name="scan_not_active">Not Active</string>
     <string name="scan_already_activated">Already Activated</string>
+    <string name="with_key_value">With key value</string>
 
 </resources>
