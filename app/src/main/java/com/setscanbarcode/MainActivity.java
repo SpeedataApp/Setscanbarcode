@@ -42,24 +42,19 @@ import static com.setscanbarcode.SetConstant.ENABLEFLAG;
 import static com.setscanbarcode.SetConstant.FLASH;
 import static com.setscanbarcode.SetConstant.FRONT;
 import static com.setscanbarcode.SetConstant.FXSERVICE_RE;
-import static com.setscanbarcode.SetConstant.HOUZHUI;
 import static com.setscanbarcode.SetConstant.INIT_JIHUO;
 import static com.setscanbarcode.SetConstant.INIT_JIHUOMIAOSHU;
-import static com.setscanbarcode.SetConstant.ISCONTINUOUS;
 import static com.setscanbarcode.SetConstant.ISENABLE;
 import static com.setscanbarcode.SetConstant.ISFLASH;
 import static com.setscanbarcode.SetConstant.ISFRONT;
 import static com.setscanbarcode.SetConstant.ISSAVEIMAGE;
-import static com.setscanbarcode.SetConstant.ISSHOWDECODE;
 import static com.setscanbarcode.SetConstant.ISSOUND;
-import static com.setscanbarcode.SetConstant.ISVIBRATOR;
 import static com.setscanbarcode.SetConstant.JIHUO;
 import static com.setscanbarcode.SetConstant.JIHUOMIAOSHU;
 import static com.setscanbarcode.SetConstant.JILUXUANZE;
 import static com.setscanbarcode.SetConstant.KEYREPORT;
 import static com.setscanbarcode.SetConstant.MIAOZHUNDENG;
 import static com.setscanbarcode.SetConstant.PREFIX;
-import static com.setscanbarcode.SetConstant.QIANZHUI;
 import static com.setscanbarcode.SetConstant.SAVE_IMAGE;
 import static com.setscanbarcode.SetConstant.SCANCAMERA;
 import static com.setscanbarcode.SetConstant.SCANSERVICES_RE;
@@ -98,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
     // TODO: 2018/5/3
     private ContentBean contentBean12;
     private ContentBean contentBean103;
+    private ContentBean contentBean13;
 
 
     @Override
@@ -151,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean2.setDescribe(getString(R.string.describe_scan_results));
         contentBean2.setTvVisible(true);
         contentBean2.setCbVisible(true);
-        contentBean2.setCheck(preferencesUtil.read(ISSHOWDECODE, true));
+        contentBean2.setCheck(SystemProperties.getBoolean("persist.scan.showdecode", true));
         mList.add(contentBean2);
 
         //4.提示音
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean3.setDescribe(getString(R.string.describe_scan_sound));
         contentBean3.setTvVisible(true);
         contentBean3.setCbVisible(true);
-        contentBean3.setCheck(preferencesUtil.read(ISSOUND, true));
+        contentBean3.setCheck(SystemProperties.getBoolean("persist.scan.sound", true));
         mList.add(contentBean3);
 
         //5.震动
@@ -169,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean4.setDescribe(getString(R.string.describe_scan_vibration));
         contentBean4.setTvVisible(true);
         contentBean4.setCbVisible(true);
-        contentBean4.setCheck(preferencesUtil.read(ISVIBRATOR, true));
+        contentBean4.setCheck(SystemProperties.getBoolean("persist.scan.vibrator", true));
         mList.add(contentBean4);
 
         //6.保存图片
@@ -196,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         contentBean6.setDescribe(getString(R.string.describe_continuous_scan));
         contentBean6.setTvVisible(true);
         contentBean6.setCbVisible(true);
-        contentBean6.setCheck(preferencesUtil.read(ISCONTINUOUS, false));
+        contentBean6.setCheck(SystemProperties.getInt("persist.scan.continuous", 1) == 2);
         mList.add(contentBean6);
 
         //9.瞄准灯
@@ -256,11 +252,20 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         //14.激活状态
         contentBean103 = new ContentBean();
         contentBean103.setTitle(preferencesUtil.read(JIHUO, getString(R.string.scan_not_active)));
-        contentBean103.setDescribe(preferencesUtil.read(JIHUOMIAOSHU, ""));
-        contentBean103.setTvVisible(true);
+        contentBean103.setDescribe("");
+        contentBean103.setTvVisible(false);
         contentBean103.setCbVisible(false);
         contentBean103.setCheck(false);
         mList.add(contentBean103);
+
+        //15.更多
+        contentBean13 = new ContentBean();
+        contentBean13.setTitle(getString(R.string.scan_more));
+        contentBean13.setDescribe("");
+        contentBean13.setTvVisible(false);
+        contentBean13.setCbVisible(false);
+        contentBean13.setCheck(false);
+        mList.add(contentBean13);
 
         contentBean1.setEnable(true);
         contentBean2.setEnable(true);
@@ -295,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             contentBean11.setEnable(true);
             // TODO: 2018/5/3
             contentBean12.setEnable(true);
+            contentBean13.setEnable(true);
         } else {
 
             contentBean2.setEnable(false);
@@ -309,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             contentBean11.setEnable(false);
             // TODO: 2018/5/3
             contentBean12.setEnable(false);
+            contentBean13.setEnable(false);
         }
     }
 
@@ -409,10 +416,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 //焦点扫描，显示扫描结果
                 if (b) {
                     sendBroadcast(SHOW_DECODE, true);
-                    preferencesUtil.write(ISSHOWDECODE, b);
+                    SystemProperties.set("persist.scan.sound", String.valueOf(b));
                 } else {
                     sendBroadcast(SHOW_DECODE, false);
-                    preferencesUtil.write(ISSHOWDECODE, b);
+                    SystemProperties.set("persist.scan.sound", String.valueOf(b));
                 }
                 break;
             case 3:
@@ -429,10 +436,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 //震动
                 if (b) {
                     sendBroadcast(VIBRATOR, true);
-                    preferencesUtil.write(ISVIBRATOR, b);
+                    SystemProperties.set("persist.scan.vibrator", String.valueOf(b));
                 } else {
                     sendBroadcast(VIBRATOR, false);
-                    preferencesUtil.write(ISVIBRATOR, b);
+                    SystemProperties.set("persist.scan.vibrator", String.valueOf(b));
                 }
                 break;
             case 5:
@@ -452,10 +459,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                 //连续扫描
                 if (b) {
                     sendBroadcast(CONTINUOUS, true);
-                    preferencesUtil.write(ISCONTINUOUS, b);
+                    SystemProperties.set("persist.scan.continuous", String.valueOf(2));
                 } else {
                     sendBroadcast(CONTINUOUS, false);
-                    preferencesUtil.write(ISCONTINUOUS, b);
+                    SystemProperties.set("persist.scan.continuous", String.valueOf(1));
                 }
                 break;
             case 8:
@@ -503,6 +510,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
             // TODO: 2018/5/3
             case 13:
                 showWithKeyValue();
+                break;
+            case 15:
+                startActivity(new Intent("com.spd.action.SCAN.SERVICE"));
                 break;
             default:
                 break;
@@ -561,9 +571,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                 SystemProperties.set("persist.sys.keytab", "false");
                             }
                         } else {
-                            SystemProperties.set("persist.sys.keytab","true");
-                            SystemProperties.set("persist.sys.keywithoutkey","false");
-                            SystemProperties.set("persist.sys.keyenter","false");
+                            SystemProperties.set("persist.sys.keytab", "true");
+                            SystemProperties.set("persist.sys.keywithoutkey", "false");
+                            SystemProperties.set("persist.sys.keyenter", "false");
                         }
                         mAdapter.notifyDataSetChanged();
                     }
@@ -587,9 +597,9 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
         dialog.show();
 
         if (position == 11) {
-            editText.setText(preferencesUtil.read(QIANZHUI, ""));
+            editText.setText(SystemProperties.get("persist.scan.prefix", ""));
         } else if (position == 12) {
-            editText.setText(preferencesUtil.read(HOUZHUI, ""));
+            editText.setText(SystemProperties.get("persist.scan.suffix", ""));
         }
         //将光标移动到最后显示最下面的信息.
         Editable text = editText.getText();
@@ -605,10 +615,10 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     return;
                 }
                 if (position == 11) {
-                    preferencesUtil.write(QIANZHUI, s);
+                    SystemProperties.set("persist.scan.prefix", s);
                     sendBroadcasts(PREFIX, s);
                 } else if (position == 12) {
-                    preferencesUtil.write(HOUZHUI, s);
+                    SystemProperties.set("persist.scan.suffix", s);
                     sendBroadcasts(SUFFIX, s);
                 }
                 dialog.dismiss();

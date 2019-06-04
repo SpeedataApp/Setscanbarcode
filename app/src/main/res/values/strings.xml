@@ -48,5 +48,6 @@
     <string name="scan_not_active">Not Active</string>
     <string name="scan_already_activated">Already Activated</string>
     <string name="with_key_value">With key value</string>
+    <string name="scan_more">More</string>
 
 </resources>
