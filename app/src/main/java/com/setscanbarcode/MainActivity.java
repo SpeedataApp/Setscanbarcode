@@ -1,5 +1,6 @@
 package com.setscanbarcode;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.support.v7.app.AppCompatActivity;
@@ -804,6 +806,7 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                     }
 
                 }).setPositiveButton(getString(R.string.dialog_sure), new DialogInterface.OnClickListener() {
+                    @SuppressLint("ObsoleteSdkInt")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -866,7 +869,11 @@ public class MainActivity extends AppCompatActivity implements CommonRvAdapter.O
                                     contentBean7.setEnable(false);
                                 }
 
-                                startService(BarcodeIntent);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    MainActivity.this.startForegroundService(BarcodeIntent);
+                                } else {
+                                    MainActivity.this.startService(BarcodeIntent);
+                                }
                                 preferencesUtil.write(ISENABLE, true);
                                 SystemProperties.set(KEYREPORT, "true");
                                 initEnable();
